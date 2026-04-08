@@ -1,300 +1,256 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Perfil Estilo Instagram</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cocacola</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: url(https://xatimg.com/image/E4gI5Ee5Mg0e.png) no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
     }
-    .ig-wrapper {
-      max-width: 1000px;
-      margin: 30px auto;
-      background: rgba(255, 255, 255, .95);
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+
+    body {
+      background-color: #DEB887;
+      font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+      overflow-x: hidden;
     }
-    .profile-top {
+
+    .container {
+      width: 100%;
+      min-height: 100vh;
       display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-    .profile-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #cacaca;
-      object-fit: cover;
-    }
-    .profile-info {
-      flex: 1;
-    }
-    .profile-info h2 {
-      font-size: 24px;
-      margin: 0;
-    }
-    .profile-info .stats {
-      margin: 10px 0;
-      font-size: 14px;
-    }
-    a.follow-link {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
-    }
-    .follow-btn {
-      background: #484a4c;
-      color: #fff;
-      padding: 8px 15px;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-      user-select: none;
-    }
-    .highlights {
-      display: flex;
-      gap: 15px;
-      margin: 25px 0;
       position: relative;
+      padding: 60px 20px;
     }
-    .highlight-link {
-      display: inline-block;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #ccc;
-      width: 70px;
-      height: 70px;
-      cursor: pointer;
-    }
-    .highlight-link img {
+
+    .background-image {
+      position: absolute;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .gallery-container {
-      max-height: 500px;
-      overflow-y: scroll;
-      padding-right: 10px;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-    .gallery img {
-      width: 100%;
-      border-radius: 5px;
-      object-fit: cover;
-      cursor: pointer;
+      background-image: url('');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -2;
+      filter: brightness(0.9);
     }
 
-    .gallery img:active {
-      transform: scale(0.97);
-      transition: transform 0.1s ease;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      padding-top: 60px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: rgba(0, 0, 0, .9);
-    }
-    .modal-content {
-      margin: auto;
-      display: block;
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 10px;
-      animation: zoomIn 0.3s ease;
-    }
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    .close {
+    .blob {
       position: absolute;
-      top: 30px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .3s;
-      z-index: 10000;
-    }
-    .close:hover {
-      color: #bbb;
+      width: 85%;
+      height: 90%;
+      background-color: #F5DEB3;
+      border-radius: 58% 42% 30% 70% / 60% 30% 70% 40%;
+      animation: morph 14s ease-in-out infinite;
+      z-index: -1;
     }
 
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 50px;
-      color: white;
-      cursor: pointer;
-      padding: 20px;
-      z-index: 9999;
-      user-select: none;
-      transition: 0.3s;
-    }
-    .nav-arrow:hover {
-      color: #bbb;
-    }
-    .prev {
-      left: 20px;
-    }
-    .next {
-      right: 20px;
-    }
-
-    .credit {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      margin-top: 40px;
-    }
-
-    .floating-box {
-      position: absolute;
-      top: 10px;
-      left: 170px;
-      background: rgba(255,255,255,0.85);
-      padding: 10px 15px;
-      border-radius: 12px;
-      box-shadow: 0 5px 1px rgba(0,0,0,0.2);
-      font-size: 13px;
-      max-width: px;
-      animation: fadeInPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes fadeInPulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.7;
+    @keyframes morph {
+      0%, 100% {
+        border-radius: 58% 42% 30% 70% / 60% 30% 70% 40%;
       }
       50% {
-        transform: scale(1.05);
-        opacity: 1;
+        border-radius: 40% 60% 60% 40% / 50% 60% 30% 60%;
       }
-      100% {
-        transform: scale(1);
-        opacity: 0.7;
+    }
+
+    .content {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #8B4513;
+    }
+
+    h1 {
+      font-size: 4.5rem;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 3px 3px #8B4513;
+    }
+
+    .heart {
+      font-size: 2.2rem;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 60px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      width: 250px;
+      height: 400px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:first-child {
+      border-top: 15px solid #8B4513;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.03);
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 15px;
+      color: #8B4513;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .desc {
+      font-size: 12px;
+      color: #8B4513;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .bottom-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    .square-link {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      background: #8B4513;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 15px;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+
+    .square-link:hover {
+      transform: scale(1.2);
+      background: #DEB887;
+    }
+
+    .fade-text-box {
+      background: white;
+      margin-top: 40px;
+      padding: 12px 20px;
+      border-radius: 15px;
+      font-size: 13px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .typing-wrapper {
+      background:#8B4513;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      width: 100%;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .typing-text {
+      font-size: 13px;
+      color: white;
+      white-space: nowrap;
+      border-right: 2px solid white;
+      padding-right: 6px;
+      overflow: hidden;
+    }
+
+    .custom-text {
+      margin: 10px 0 5px;
+      font-size: 13px;
+      color: #8B4513;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+        gap: 40px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="ig-wrapper">
-    <div class="profile-top">
-      <img class="profile-img" src="https://xatimg.com/image/piUAIONvmDeb.jpg" alt="perfil">
-      <div class="profile-info">
-        <h2>тaкιѕ™<imgsrc="https://i.imgur.com/6zDwQne.png" width="16" alt="icon"></h2>
-        <div class="stats">
-          <strong>SN</strong> тaкιѕ &nbsp; <strong>ID</strong> 1543076189 &nbsp; <strong>Married</strong> `𝑪𝒐𝒄𝒂 𝑪𝒐𝒍𝒂~ ♡
-        </div>
-        <div class="desc">
-          <strong>Galería Pcback | Pstyle | Fondos | Gifs | Spaces | Logos | Más...</strong><br><br>
-        </div>
-        <a href="https://xat.com/wanderful" target="_blank" class="follow-link">
-          <div class="follow-btn">Wanderfull ♡</div>
-        </a>
-      </div>
-    </div>
 
-    <div class="highlights">
-      <a href="https://xat.me/CocaCoLa" target="_blank" class="highlight-link">
-        <img src="https://xatimg.com/image/VnjHcArPcMiD.jpg" alt="igtv">
-      </a>
-      <div class="floating-box">
-        Porque una razón no basta para decirte cuanto TE AMO ♡. Lo que tengo claro es que en esta vida te regalaré todo lo que te mereces y que te haré ver todo lo que siento y significas.
-      </div>
-    </div>
+  <div class="background-image"></div>
 
-    <div class="gallery-container">
-      <div class="gallery">
-        <!-- Galería original intacta -->
-        <!-- ... todas las imágenes que ya tenías ... -->
-        <img src="https://xatimg.com/image/zoPltMHpM9Wx.gif" alt="img2">
-          <img src="https://xatimg.com/image/I3n7gjzif9bG.gif" alt="img3">
-          <img src="https://xatimg.com/image/nUnYp74Nh2MY.gif" alt="img4">
-          <img src="https://xatimg.com/image/AXfLo8mTfD3Q.gif" alt="img5">
-          <img src="https://xatimg.com/image/dOWwJ8JUlAof.gif" alt="img6">
-          <img src="https://xatimg.com/image/6POlOr9YkwUE.gif" alt="img7">
-          <img src="https://xatimg.com/image/9cfx0OkEfVdt.gif" alt="img8">
-          <img src="https://xatimg.com/image/FHquYUeZWMre.gif" alt="img9">
-          <img src="https://xatimg.com/image/Wic4Iz7Zi5CF.gif" alt="img1">
-          <img src="https://xatimg.com/image/CZKfnLi7QBcX.gif" alt="img2">
-          <img src="https://xatimg.com/image/Cwzafa3KTdLx.gif" alt="img3">
-          <img src="https://xatimg.com/image/RlkSWlMMOIC3.gif" alt="img4">
-          <img src="https://xatimg.com/image/vwg7btBB5Cdn.gif" alt="img5">
-          <img src="https://xatimg.com/image/XEI8YKILYU7p.gif" alt="img6">
-          <img src="https://xatimg.com/image/s9PU8dNuPFFj.gif" alt="img7">
-          <img src="https://xatimg.com/image/IFWzkDFUJTbj.gif" alt="img8">
-          <img src="https://xatimg.com/image/okPtF1QRuG1l.gif" alt="img9">
-          <img src="https://xatimg.com/image/0dDpjB6KqMlu.gif" alt="img9">
-          <img src="https://xatimg.com/image/N4C6bezXxwBs.gif" alt="img9">
-          <img src="https://xatimg.com/image/NtDsoD62xHhU.gif" alt="img9">
-          <img src="https://xatimg.com/image/SEj8eyV49aaL.png" alt="img9">
-          <img src="https://xatimg.com/image/XUEHWsL6W9Nr.png" alt="img9">
-          <img src="https://xatimg.com/image/3cy4zZnYPR70.png" alt="img9">
-          <img src="https://xatimg.com/image/P8QYMhWSsyex.png" alt="img9">
-          <img src="https://xatimg.com/image/At8QezIisLwC.png" alt="img9">
-          <img src="https://xatimg.com/image/X8JCt3OrBz5l.png" alt="img9">
-          <img src="https://xatimg.com/image/hnhe6ihJgRKo.png" alt="img9">
-          <img src="https://xatimg.com/image/uXm43Nv5G9cE.png" alt="img9">
-          <img src="https://xatimg.com/image/DIlUuZvHkDix.png" alt="img9">
-          <img src="https://xatimg.com/image/dJcVRyBfmRB1.png" alt="img9">
-          <img src="https://xatimg.com/image/yMWFFlMtXDV5.png" alt="img9">
-          <img src="https://xatimg.com/image/kV6homqu09Jg.png" alt="img9">
-          <img src="https://xatimg.com/image/RrvD8teZ2vYG.png" alt="img9">
-          <img src="https://xatimg.com/image/46tdpRZCrVj5.png" alt="img9">
-          <img src="https://xatimg.com/image/lsXJMlHi2JFl.png" alt="img9">
-          <img src="https://xatimg.com/image/BsDSkt3imAhx.png" alt="img9">
-          <img src="https://xatimg.com/image/jwo9xenoLvqj.png" alt="img9">
-          <img src="https://xatimg.com/image/er1D7CujDSnM.png" alt="img9">
-          <img src="https://xatimg.com/image/Yd4WxPoyeJPc.png" alt="img9">
-          <img src="https://xatimg.com/image/kbGyCgC0oeDl.png" alt="img9">
-          <img src="https://xatimg.com/image/OhfNtx3YOjQN.png" alt="img9">
-          <img src="https://xatimg.com/image/J0k3w9apzoap.png" alt="img9">
-          <img src="https://xatimg.com/image/rNaWQDP6JWaN.png" alt="img9">
-          <img src="https://xatimg.com/image/tVapfVzXfcaR.png" alt="img9">
-          <img src="https://xatimg.com/image/strOhwgirNs2.png" alt="img9">
-          <img src="https://xatimg.com/image/O4BpurTDnwwr.png" alt="img9">
-          <img src="https://xatimg.com/image/ZBJ8oww5BJEb.png" alt="img9">
-          <img src="https://xatimg.com/image/Xz0BJHV01vcu.png" alt="img9">
-          <img src="https://xatimg.com/image/oGYppprOwSJf.png" alt="img9">
-          <img src="https://xatimg.com/image/PaBMRZ5iVteJ.png" alt="img9">
-          <img src="https://xatimg.com/image/4ze6oGfxeFcL.png" alt="img9">
-          <img src="https://xatimg.com/image/njRLg1qh6rQK.png" alt="img9">
-          <img src="https://xatimg.com/image/MO8BkFjm46XS.png" alt="img9">
-          <img src="https://xatimg.com/image/eYT7VLMRNj5Q.png" alt="img9">
-          <img src="https://xatimg.com/image/JIMhT07ObU64.png" alt="img9">
-          <img src="https://xatimg.com/image/aRiBK8RkcsH1.png" alt="img9">
-          <img src="https://xatimg.com/image/3EF9U4PwRjZp.png" alt="img9">
-          <img src="https://xatimg.com/image/MlWPCQFYqhYx.png" alt="img9">
-          <img src="https://xatimg.com/image/qPNoML8OUcru.png" alt="img9">
-        
+  <div class="container">
+    <div class="blob"></div>
+
+    <div class="content">
+      <h1>`𝑪𝒐𝒄𝒂 𝑪𝒐𝒍𝒂~</h1>
+      <div class="heart">♡</div>
+
+      <div class="cards">
+        <div class="card">
+          <img src="https://xatimg.com/image/nF0Nz4W2HjwN.png" alt="Bunny Girl">
+          <div class="title">~❀</div>
+          <div class="desc">𝙸 𝙳 𝙸 𝙻 𝙸 𝙾</div>
+        </div>
+
+        <div class="card">
+          <div class="typing-wrapper">
+            <div class="typing-text" id="type-text"></div>
+          </div>
+
+          <img src="https://xatimg.com/image/fg5PNvUJKC3y.jpg" alt="Poniko Face" style="margin-top: 25px;">
+
+          <div class="custom-text">Hᵰʏ ᴀʟɢᴏ ᴇɴ ʟᴏs ᴘʟᴀɴᴇᴛᴀs ⊹ ࣪ ˖⭑</div>
+
+          <div class="bottom-links">
+            <a href="https://xat.me/xTakis" class="square-link" target="_blank">♡</a>
+            <a href="https://xatimg.com/image/5s9mgeykvOyW.png" class="square-link" target="_blank">[◎°]</a>
+            <a href="https://xatimg.com/image/zyqXr0yhCaCi.png" class="square-link" target="_blank">[◎°]</a>
+            <a href="https://xat.com/wanderful" class="square-link" target="_blank">⌂</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-text-box">
+        By тaкιѕ™ <br>.. ᴹⁱ ᵃᵐᵒʳ ᵇᵒⁿⁱᵗᵒ ♡
       </div>
     </div>
   </div>
@@ -312,11 +268,11 @@
       player = new YT.Player('yt-player', {
         height: '0',
         width: '0',
-        videoId: '3MnyyOY5ZTY',
+        videoId: 'vAIPyUqxgjE',
         playerVars: {
           autoplay: 1,
           loop: 1,
-          playlist: '3MnyyOY5ZTY',
+          playlist: 'vAIPyUqxgjE',
           controls: 0,
           disablekb: 1,
           fs: 0,
@@ -333,57 +289,27 @@
     }
   </script>
 
-  <!-- Modal para galería con flechas -->
-  <div id="modal" class="modal">
-    <span class="close">&times;</span>
-    <span class="nav-arrow prev">&#10094;</span>
-    <img class="modal-content" id="modal-img" alt="modal image">
-    <span class="nav-arrow next">&#10095;</span>
-  </div>
-
   <script>
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modal-img");
-    const closeBtn = document.querySelector(".close");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-    const galleryImgs = document.querySelectorAll(".gallery img");
+    const el = document.getElementById("type-text");
+    const text = "’ωᴏnᴇ˺";
+    let index = 0;
 
-    let currentImgIndex = 0;
-
-    function showModal(index) {
-      currentImgIndex = index;
-      modal.style.display = "block";
-      modalImg.src = galleryImgs[index].src;
-    }
-
-    galleryImgs.forEach((img, index) => {
-      img.addEventListener("click", () => showModal(index));
-    });
-
-    closeBtn.onclick = () => {
-      modal.style.display = "none";
-    }
-
-    window.onclick = (e) => {
-      if (e.target == modal) {
-        modal.style.display = "none";
+    function typeEffect() {
+      if (index < text.length) {
+        el.textContent += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 120);
+      } else {
+        setTimeout(() => {
+          el.textContent = "";
+          index = 0;
+          setTimeout(typeEffect, 500);
+        }, 1500);
       }
     }
 
-    prevBtn.onclick = () => {
-      currentImgIndex = (currentImgIndex - 1 + galleryImgs.length) % galleryImgs.length;
-      modalImg.src = galleryImgs[currentImgIndex].src;
-    }
-
-    nextBtn.onclick = () => {
-      currentImgIndex = (currentImgIndex + 1) % galleryImgs.length;
-      modalImg.src = galleryImgs[currentImgIndex].src;
-    }
+    typeEffect();
   </script>
 
-  <div class="credit">
-    By тaкιѕ™
-  </div>
 </body>
 </html>
