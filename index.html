@@ -1,69 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>WRS Xatspace — Pixel Perfect</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRS — Pixel Perfect</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
-        /* [RESET E CURSOR] */
+        /* RESET E CURSOR */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; cursor: none !important; }
-        body { height:100vh; display:flex; justify-content:center; align-items:center; background: #0a0a0a; overflow: hidden; }
+        body { height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at top, #f391b78f, #cc7894 70%); overflow: hidden; }
 
-        /* [PLAYER RESTAURADO - ESTILO WRS] */
-        .vip-player {
-            position: relative; width: 420px; padding: 25px 20px;
-            border-radius: 25px; background: rgba(20, 20, 20, 0.6); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1); text-align: center; height: 520px; overflow: hidden;
-            z-index: 10; margin-left: -500px; /* Ajuste de posição lateral */
+        /* [PLAYER ROSA GLASS] */
+        .player {
+            position: relative; top:80px; left:-602px; width:170px; padding:16px 15px 20px;
+            border-radius:80px 80px 30px 30px; background: rgba(226, 147, 173, 0.6);
+            backdrop-filter: blur(25px); border:1px solid rgba(255, 112, 167, 0.075);
+            box-shadow:0 30px 60px rgba(141, 64, 84, 0.7); color:#fff; text-align:center; transition: 0.3s;
         }
-        
-        #bgCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-        .vip-content { position: relative; z-index: 1; }
-
-        .compas img { 
-            width: 140px; height: 140px; border-radius: 50%; 
-            border: 4px solid #00ffe5; animation: spin 12s linear infinite; 
-            animation-play-state: paused;
+        .player img { 
+            width:75px; height:75px; border-radius:50%; object-fit:cover; position:relative; top:-5px;
+            border:6px solid #d47096; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: spin 6s linear infinite; animation-play-state: paused;
         }
-        .playing .compas img { animation-play-state: running; }
+        .player.playing img { animation-play-state: running; }
+        @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
-        .circle-btn { 
-            width: 55px; height: 55px; border-radius: 50%; 
-            background: #00ffe5; border: none; color: #000; 
-            font-size: 18px; transition: 0.3s;
-        }
+        /* EQUALIZADOR */
+        .equalizer { display:flex; justify-content:center; margin-top:10px; gap:3px; height:12px; margin-bottom:28px; }
+        .equalizer span { width:3px; height:100%; background:#fc84b6; border-radius:2px; animation: equalize 1s infinite ease-in-out; animation-play-state: paused; }
+        .player.playing .equalizer span { animation-play-state: running; }
+        @keyframes equalize { 0%,100% { height:4px; } 50% { height:18px; } }
 
-        .song-title { margin-top: 15px; font-size: 18px; color: #00ffe5; font-weight: 600; }
+        /* CONTROLES */
+        .controls { position: relative; top:-18px; display:flex; justify-content:center; gap:12px; }
+        .controls button { width:30px; height:30px; border:none; border-radius:50%; background:linear-gradient(90deg,#ef468765,#ea337f5b); color:#fff; }
+        .progress-container { position: relative; top:-10px; width:100%; height:4px; background:rgba(255,255,255,0.15); border-radius:10px; overflow:hidden; }
+        .progress { height:100%; width:0%; background:linear-gradient(90deg,#ef468c,#ea3379); }
 
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* [LAYOUT DO PERFIL] */
+        .wrapper { display:flex; align-items:center; gap:40px; position: relative; left: 150px; }
+        .profile { position:relative; width:390px; height:400px; padding:180px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; }
+        .avatar { position:absolute; top:-45px; left:-178px; width:200px; height:200px; border-radius:50%; border:21px solid #f3d3dfa1; overflow:hidden; }
+        .avatar img { width:100%; height:100%; object-fit:cover; }
 
-        /* [CURSOR E TRAIL] */
-        #heartCursor {
-            position: fixed; width: 30px; height: 30px;
-            pointer-events: none; z-index: 999999;
-            background: url("https://xatimg.com/image/YbX9tnbfzNya.png") no-repeat center;
-            background-size: contain; transform: translate(-50%, -50%);
-        }
-        .heart-particle {
-            position: fixed; width: 10px; height: 10px;
-            pointer-events: none; z-index: 999998;
-            background: #f56e97; transform: rotate(45deg);
-            animation: fadeOut 0.8s forwards;
-        }
+        /* [CURSOR PERSONALIZADO] */
+        #heartCursor { position: fixed; width: 30px; height: 30px; pointer-events: none; z-index: 999999; background: url("https://xatimg.com/image/YbX9tnbfzNya.png") no-repeat center; background-size: contain; transform: translate(-50%, -50%); }
+        .heart-particle { position: fixed; width: 10px; height: 10px; pointer-events: none; z-index: 999998; background: #f56e97; transform: rotate(45deg); animation: fadeOut 0.8s forwards; }
         @keyframes fadeOut { to { transform: translateY(-15px) scale(0.5) rotate(45deg); opacity: 0; } }
 
-        /* [RESTO DO LAYOUT MANTIDO] */
-        .wrapper { display:flex; align-items:center; gap:40px; position: relative; left: 150px; }
-        .profile { 
-            position:relative; width:390px; height:400px; padding:180px 10px 30px; 
-            border-radius:25px; background: rgba(235, 143, 181, 0.37); 
-            backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); 
-        }
-        .avatar { position:absolute; top:-45px; left:-178px; width:200px; height:200px; border-radius:50%; overflow:hidden; border:21px solid #f3d3dfa1; }
-        .avatar img { width:100%; height:100%; object-fit:cover; }
+        /* OUTROS ESTILOS MANTIDOS */
+        .menu { position:absolute; top:-45px; left:50%; transform:translateX(-50%); display:flex; gap:8px; background: rgba(241, 137, 177, 0.6); padding:6px; border-radius:26px; }
+        .menu span { font-size:12px; opacity:0.6; padding:6px 14px; border-radius:20px; }
+        .menu .active { background:linear-gradient(90deg,#f798bf,#db859f); opacity:1; }
+        .name { text-align:center; font-size:35px; position: relative; top:-90px; color: #fff; text-shadow: 0 0 10px #ff9ecb; }
+        .id { position: relative; top: -88px; font-size:12px; text-align:center; opacity:0.5; }
     </style>
 </head>
 <body>
@@ -71,40 +61,71 @@
 <div id="heartCursor"></div>
 
 <div class="wrapper">
-    <div class="vip-player fondo-efecto-ondas" id="playerWRS">
-        <canvas id="bgCanvas"></canvas>
-        <div class="vip-content">
-            <div class="compas" style="margin-bottom: 20px;">
-                <img id="coverArt" src="https://xatimg.com/image/rQKnT3qeior8.jpg">
-            </div>
-            <div id="songTitle" class="song-title">WRS Player</div>
-            <div id="songArtist" style="font-size: 12px; opacity: 0.7;">Layton Greene</div>
-            
-            <div class="control-buttons" style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
-                <button id="prevBtn" class="circle-btn"><i class="fas fa-backward"></i></button>
-                <button id="playPauseBtn" class="circle-btn"><i class="fas fa-play"></i></button>
-                <button id="nextBtn" class="circle-btn"><i class="fas fa-forward"></i></button>
-            </div>
+    <div class="player">
+        <div class="disc">
+            <img id="cover" src="https://xatimg.com/image/rQKnT3qeior8.jpg">
         </div>
-        <audio id="radioAudio"></audio>
+        <div class="song" style="font-size:10px; margin: 10px 0;">
+            <span id="artist">Layton Greene</span><br>
+            <small id="title">Leave Em Alone</small>
+        </div>
+        <div class="equalizer">
+            <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="controls">
+            <button onclick="prev()">⏮</button>
+            <button onclick="togglePlay()" id="playBtn">▶</button>
+            <button onclick="next()">⏭</button>
+        </div>
+        <div class="progress-container" onclick="setProgress(event)">
+            <div class="progress" id="progress"></div>
+        </div>
+        <audio id="audio"></audio>
     </div>
 
     <div class="profile">
-        <div class="avatar">
-            <img src="https://xatimg.com/image/lu7HFLMYZjSz.png">
+        <div class="avatar"><img src="https://xatimg.com/image/lu7HFLMYZjSz.png"></div>
+        <div class="menu">
+            <span class="active">PERFIL</span>
+            <span>AMIGOS</span>
+            <span>GALERÍA</span>
         </div>
-        <div style="text-align:center;">
-            <h1 style="font-size: 30px; color: #fff;">♥ 𝓨𝓪𝔃 ♥</h1>
-            <p style="opacity: 0.5;">Id: 666000</p>
-        </div>
+        <div class="name">♥ 𝓨𝓪𝔃 ♥</div>
+        <div class="id">Id: 666000</div>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
-
 <script>
-    // --- LÓGICA DO CURSOR ---
+    const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("playBtn");
+    const player = document.querySelector(".player");
+    const progress = document.getElementById("progress");
+    let playing = false;
+
+    // Link Dropbox (Ajustado conforme sua correção anterior)
+    const streamUrl = "https://www.dropbox.com/scl/fi/seu-link.mp3?rlkey=...&st=...&dl=1";
+
+    function togglePlay() {
+        if (!playing) {
+            if(!audio.src) audio.src = streamUrl;
+            audio.play();
+            playBtn.textContent = "⏸";
+            player.classList.add("playing");
+        } else {
+            audio.pause();
+            playBtn.textContent = "▶";
+            player.classList.remove("playing");
+        }
+        playing = !playing;
+    }
+
+    // Progresso
+    audio.addEventListener("timeupdate", () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percent + "%";
+    });
+
+    // Cursor
     const cursor = document.getElementById("heartCursor");
     document.addEventListener("mousemove", (e) => {
         cursor.style.top = e.clientY + "px";
@@ -120,60 +141,9 @@
         setTimeout(() => p.remove(), 800);
     }
 
-    // --- EFEITO RIPPLES (ONDAS) ---
-    $(document).ready(function() {
-        $('.fondo-efecto-ondas').ripples({
-            resolution: 512,
-            dropRadius: 20,
-            perturbance: 0.01
-        });
-    });
-
-    // --- CANVAS NOTAS MUSICAIS ---
-    const canvas = document.getElementById("bgCanvas");
-    const ctx = canvas.getContext("2d");
-    let w, h;
-    function resize() { w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight; }
-    window.onresize = resize; resize();
-    const symbols = ["♪","♫","♬"];
-    const notes = [];
-    for(let i=0; i<15; i++) {
-        notes.push({ x: Math.random()*w, y: Math.random()*h, s: 0.5+Math.random(), sym: symbols[Math.floor(Math.random()*3)] });
-    }
-    function anim() {
-        ctx.clearRect(0,0,w,h);
-        ctx.fillStyle = "#00ffe5";
-        ctx.font = "14px Arial";
-        notes.forEach(n => {
-            ctx.fillText(n.sym, n.x, n.y);
-            n.y += n.s; if(n.y > h) n.y = -10;
-        });
-        requestAnimationFrame(anim);
-    }
-    anim();
-
-    // --- LÓGICA DO PLAYER RESTAURADA ---
-    const audio = document.getElementById("radioAudio");
-    const playPauseBtn = document.getElementById("playPauseBtn");
-    const playerBox = document.getElementById("playerWRS");
-    let playing = false;
-
-    // Link do Dropbox conforme sua última atualização para mobile
-    const streamUrl = "https://www.dropbox.com/scl/fi/seu-link-de-musica.mp3?rlkey=...&st=...&dl=1";
-
-    playPauseBtn.onclick = () => {
-        if (!playing) {
-            audio.src = streamUrl;
-            audio.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            playerBox.classList.add("playing");
-        } else {
-            audio.pause();
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            playerBox.classList.remove("playing");
-        }
-        playing = !playing;
-    };
+    // Proteções
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
 </script>
 
 </body>
