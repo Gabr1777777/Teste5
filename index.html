@@ -28,11 +28,11 @@
         .enter-btn { padding:14px 40px; border-radius:30px; border:none; background:linear-gradient(90deg,#f579a8,#fc84b6); color:#fff; letter-spacing:2px; font-weight:600; cursor: pointer !important; }
 
         /* WRAPPER E PROFILE */
-        /* 👇 AJUSTE CLAVE 1: O wrapper agora centraliza o flex-container 👇 */
+        /* 👇 O wrapper agora centraliza o flex-container 👇 */
         .wrapper { display:flex; justify-content:center; align-items:center; width: 100%; height: 100%; position: relative; opacity:0; transition:1s; z-index: 10;}
         .wrapper.show { opacity:1; }
 
-        /* 👇 AJUSTE CLAVE 2: Novo contêiner para alinhar player e perfil lado a lado 👇 */
+        /* 👇 Contêiner para alinhar player e perfil lado a lado 👇 */
         .flex-container {
             display: flex;
             align-items: flex-start; /* Alinha o player e o perfil pelo topo */
@@ -40,7 +40,8 @@
             position: relative;
         }
 
-        .profile { position:relative; width:390px; height:400px; padding:60px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; z-index: 20;}
+        /* 👇 AJUSTE CLAVE 1: Perfil movido um pouco para cima 👇 */
+        .profile { position:relative; top: -50px; /* Move o painel para cima */ width:390px; height:400px; padding:60px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; z-index: 20;}
         .avatar { position:absolute; top:-45px; left: 20px; /* Posiciona a foto no canto esquerdo interno do painel rosa */ width:200px; height:200px; border-radius:50%; border:21px solid #f3d3dfa1; overflow:hidden; z-index: 30; }
         .avatar img { width:100%; height:100%; object-fit:cover; pointer-events: none; }
 
@@ -56,8 +57,8 @@
         .tab.active { display:block; }
         @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* PLAYER ROSA - POSIÇÃO LADO A LADO */
-        /* 👇 AJUSTE CLAVE 3: Player agora é relativo dentro do flex-container e colado na foto 👇 */
+        /* PLAYER ROSA */
+        /* 👇 Player agora é relativo dentro do flex-container e colado na foto 👇 */
         .player {
             position: relative;
             margin-top: 154px; /* Mantém o alinhamento vertical com a foto */
