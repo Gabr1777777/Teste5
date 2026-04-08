@@ -10,10 +10,22 @@
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; cursor: none !important; }
         body { height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at top, #f391b78f, #cc7894 70%); overflow: hidden; }
 
+        /* CHUVA DE CORAÇÕES (RESTAURADA) */
+        .hearts-container { position:fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; z-index:-1; pointer-events:none; }
+        .falling-heart { position:absolute; width:20px; height:20px; background: radial-gradient(circle, #ff9ebb, #ff4f92); transform: rotate(45deg); animation: fall linear infinite; opacity:0.7; border-radius: 2px; }
+        .falling-heart::before, .falling-heart::after { content:""; position:absolute; width:20px; height:20px; background: inherit; border-radius:50%; }
+        .falling-heart::before { top:-10px; left:0; }
+        .falling-heart::after { left:-10px; top:0; }
+        @keyframes fall { 
+            0% { transform: translateY(-10vh) rotate(45deg) scale(0.5); opacity:0; } 
+            10% { opacity:0.8; } 
+            100% { transform: translateY(110vh) rotate(45deg) scale(1.2); opacity:0; } 
+        }
+
         /* INTRO */
         .intro { position:fixed; inset:0; background:#8f3c63; display:flex; justify-content:center; align-items:center; z-index:9999; transition:1s; }
         .intro.hide { opacity:0; pointer-events:none; }
-        .enter-btn { padding:14px 40px; border-radius:30px; border:none; background:linear-gradient(90deg,#f579a8,#fc84b6); color:#fff; letter-spacing:2px; }
+        .enter-btn { padding:14px 40px; border-radius:30px; border:none; background:linear-gradient(90deg,#f579a8,#fc84b6); color:#fff; letter-spacing:2px; font-weight:600; }
 
         /* WRAPPER E PROFILE */
         .wrapper { display:flex; align-items:center; gap:40px; position: relative; left: 150px; opacity:0; transition:1s; }
@@ -23,34 +35,31 @@
         .avatar img { width:100%; height:100%; object-fit:cover; }
 
         /* TABS */
+        .menu { position:absolute; top:-45px; left:50%; transform:translateX(-50%); display:flex; gap:8px; background: rgba(241, 137, 177, 0.6); padding:6px; border-radius:26px; z-index:100; }
+        .menu span { font-size:12px; opacity:0.6; padding:6px 14px; border-radius:20px; transition: 0.3s; }
+        .menu .active { background:linear-gradient(90deg,#f798bf,#db859f); opacity:1; }
         .tab { display:none; animation: fade 0.5s ease forwards; }
         .tab.active { display:block; }
         @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* GALERIA E ZOOM */
-        .gallery-container { position:absolute; width:100%; top:-90px; display:flex; justify-content:center; perspective:1000px; }
-        .item { cursor:pointer; transition: 0.3s; }
-        .item img { width:100px; height:140px; border-radius:10px; object-fit:cover; border:2px solid rgba(255,255,255,0.2); }
-        
-        .zoom-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; flex-direction:column; justify-content:center; align-items:center; z-index:10000; }
-        .zoom-overlay.active { display:flex; }
-        .zoom-overlay img { max-width:90%; max-height:80%; border-radius:15px; box-shadow:0 0 30px #f579a8; }
-        .close-zoom { margin-top:20px; padding:10px 30px; border-radius:20px; border:none; background:#f579a8; color:#fff; }
-
         /* PLAYER ROSA */
-        .player { position: relative; top:80px; left:-602px; width:170px; padding:16px 15px 20px; border-radius:80px 80px 30px 30px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; }
+        .player { position: relative; top:80px; left:-602px; width:170px; padding:16px 15px 20px; border-radius:80px 80px 30px 30px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
         .player img { width:75px; height:75px; border-radius:50%; object-fit:cover; border:6px solid #d47096; animation: spin 6s linear infinite; animation-play-state: paused; }
         .player.playing img { animation-play-state: running; }
         @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        .controls { margin-top: 10px; display: flex; justify-content: center; gap: 10px; }
+        .controls button { background: none; border: none; color: #fff; font-size: 18px; }
 
         /* CURSOR */
         #heartCursor { position: fixed; width: 30px; height: 30px; pointer-events: none; z-index: 999999; background: url("https://xatimg.com/image/YbX9tnbfzNya.png") no-repeat center; background-size: contain; transform: translate(-50%, -50%); }
         .heart-particle { position: fixed; width: 10px; height: 10px; pointer-events: none; z-index: 999998; background: #f56e97; transform: rotate(45deg); animation: fadeOut 0.8s forwards; }
         @keyframes fadeOut { to { transform: translateY(-15px) scale(0.5) rotate(45deg); opacity: 0; } }
 
-        .menu { position:absolute; top:-45px; left:50%; transform:translateX(-50%); display:flex; gap:8px; background: rgba(241, 137, 177, 0.6); padding:6px; border-radius:26px; z-index:100; }
-        .menu span { font-size:12px; opacity:0.6; padding:6px 14px; border-radius:20px; }
-        .menu .active { background:linear-gradient(90deg,#f798bf,#db859f); opacity:1; }
+        /* ZOOM GALERIA */
+        .zoom-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; flex-direction:column; justify-content:center; align-items:center; z-index:10000; }
+        .zoom-overlay.active { display:flex; }
+        .zoom-overlay img { max-width:90%; max-height:80%; border-radius:15px; }
+        .close-zoom { margin-top:20px; padding:10px 30px; border-radius:20px; border:none; background:#f579a8; color:#fff; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -58,6 +67,8 @@
 <div class="intro" id="intro">
     <button class="enter-btn" id="enterBtn">INGRESAR</button>
 </div>
+
+<div class="hearts-container" id="heartsBg"></div>
 
 <div id="heartCursor"></div>
 
@@ -67,13 +78,17 @@
 </div>
 
 <div class="wrapper" id="mainWrapper">
-    <div class="player" id="playerContainer">
+    <div class="player" id="playerBox">
         <img id="cover" src="https://xatimg.com/image/rQKnT3qeior8.jpg">
-        <div style="font-size:10px; margin:10px 0;">Layton Greene<br><small>Leave Em Alone</small></div>
-        <div class="controls">
-            <button onclick="togglePlay()" id="playBtn" style="background:none; border:none; color:#fff; font-size:20px;">▶</button>
+        <div style="font-size:10px; margin:10px 0; height: 30px; overflow: hidden;">
+            <span id="musicName">Cargando...</span>
         </div>
-        <audio id="audio" loop></audio>
+        <div class="controls">
+            <button onclick="prev()">⏮</button>
+            <button onclick="togglePlay()" id="playBtn">▶</button>
+            <button onclick="next()">⏭</button>
+        </div>
+        <audio id="mainAudio"></audio>
     </div>
 
     <div class="profile">
@@ -85,54 +100,103 @@
         </div>
 
         <div class="tab active" id="perfil">
-            <h1 style="text-align:center; margin-top:-90px;">♥ 𝓨𝓪𝔃 ♥</h1>
-            <p style="text-align:center; opacity:0.5;">Id: 666000</p>
+            <h1 style="text-align:center; margin-top:-90px; font-size: 32px;">♥ 𝓨𝓪𝔃 ♥</h1>
+            <p style="text-align:center; opacity:0.5; font-size: 12px;">Id: 666000</p>
         </div>
 
-        <div class="tab" id="amigos">
-            <p style="text-align:center; margin-top:-50px;">Lista de Amigos...</p>
+        <div class="tab" id="amigos" style="text-align:center;">
+             <p style="margin-top:-50px;">Mis Amigos</p>
         </div>
 
         <div class="tab" id="galeria">
-            <div class="gallery-container">
-                <div class="item" onclick="openZoom(this)"><img src="https://xatimg.com/image/grsS9Sc9mchR.png"></div>
-                <div class="item" onclick="openZoom(this)" style="margin-left:10px;"><img src="https://xatimg.com/image/q1wHGSRCMb6h.png"></div>
+            <div style="display:flex; justify-content:center; gap:10px; margin-top:-90px;">
+                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://xatimg.com/image/grsS9Sc9mchR.png" style="width:80px; border-radius:10px;"></div>
+                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://xatimg.com/image/q1wHGSRCMb6h.png" style="width:80px; border-radius:10px;"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const audio = document.getElementById("audio");
-    const playBtn = document.getElementById("playBtn");
-    const playerCont = document.getElementById("playerContainer");
+    // --- PLAYLIST ---
+    const playlist = [
+        { name: "Eminem - You dont know", url: "https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&st=wy1w0icm&raw=1" },
+        { name: "The Sound of Silence – Rising to the Night", url: "https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&st=qty8093e&raw=1" },
+        { name: "Desireless - Voyage Voyage", url: "https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&st=0yenl8sh&raw=1" }
+    ];
 
-    // Tocar ao Ingressar
-    document.getElementById("enterBtn").addEventListener("click", () => {
-        document.getElementById("intro").classList.add("hide");
-        document.getElementById("mainWrapper").classList.add("show");
-        
-        // Coloque aqui o link da sua música
-        audio.src = "https://www.dropbox.com/scl/fi/seu-link-aqui.mp3?rlkey=...&st=...&dl=1";
-        audio.play().then(() => {
-            playerCont.classList.add("playing");
-            playBtn.textContent = "⏸";
-        });
-    });
+    let currentTrack = 0;
+    const audio = document.getElementById("mainAudio");
+    const playBtn = document.getElementById("playBtn");
+    const musicName = document.getElementById("musicName");
+    const playerBox = document.getElementById("playerBox");
+
+    function loadTrack(idx) {
+        audio.src = playlist[idx].url;
+        musicName.innerText = playlist[idx].name;
+    }
 
     function togglePlay() {
         if (audio.paused) {
             audio.play();
-            playBtn.textContent = "⏸";
-            playerCont.classList.add("playing");
+            playBtn.innerText = "⏸";
+            playerBox.classList.add("playing");
         } else {
             audio.pause();
-            playBtn.textContent = "▶";
-            playerCont.classList.remove("playing");
+            playBtn.innerText = "▶";
+            playerBox.classList.remove("playing");
         }
     }
 
-    // Navegação das Abas
+    function next() {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+        playBtn.innerText = "⏸";
+        playerBox.classList.add("playing");
+    }
+
+    function prev() {
+        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+        playBtn.innerText = "⏸";
+        playerBox.classList.add("playing");
+    }
+
+    // --- INGRESSAR ---
+    document.getElementById("enterBtn").addEventListener("click", () => {
+        document.getElementById("intro").classList.add("hide");
+        document.getElementById("mainWrapper").classList.add("show");
+        loadTrack(currentTrack);
+        audio.play();
+        playBtn.innerText = "⏸";
+        playerBox.classList.add("playing");
+        startHeartRain(); // Inicia os corações ao entrar
+    });
+
+    // --- CHUVA DE CORAÇÕES ---
+    function startHeartRain() {
+        const container = document.getElementById("heartsBg");
+        for (let i = 0; i < 20; i++) {
+            createHeart(container);
+        }
+    }
+
+    function createHeart(container) {
+        const heart = document.createElement("div");
+        heart.classList.add("falling-heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        heart.style.animationDelay = (Math.random() * 5) + "s";
+        container.appendChild(heart);
+        
+        heart.addEventListener('animationiteration', () => {
+            heart.style.left = Math.random() * 100 + "vw";
+        });
+    }
+
+    // --- TABS ---
     const menuSpans = document.querySelectorAll('#tabMenu span');
     const tabs = document.querySelectorAll('.tab');
 
@@ -140,25 +204,21 @@
         span.addEventListener('click', () => {
             menuSpans.forEach(s => s.classList.remove('active'));
             tabs.forEach(t => t.classList.remove('active'));
-            
             span.classList.add('active');
             const target = span.getAttribute('data-tab');
             document.getElementById(target).classList.add('active');
         });
     });
 
-    // Zoom da Galeria
+    // --- ZOOM ---
     function openZoom(el) {
-        const imgSrc = el.querySelector('img').src;
-        document.getElementById("zoomImg").src = imgSrc;
+        const src = el.querySelector('img').src;
+        document.getElementById("zoomImg").src = src;
         document.getElementById("zoomOverlay").classList.add("active");
     }
+    function closeZoom() { document.getElementById("zoomOverlay").classList.remove("active"); }
 
-    function closeZoom() {
-        document.getElementById("zoomOverlay").classList.remove("active");
-    }
-
-    // Cursor
+    // --- CURSOR ---
     const cursor = document.getElementById("heartCursor");
     document.addEventListener("mousemove", (e) => {
         cursor.style.top = e.clientY + "px";
@@ -169,7 +229,9 @@
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 800);
     });
-</script>
 
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+</script>
 </body>
 </html>
