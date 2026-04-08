@@ -28,10 +28,20 @@
         .enter-btn { padding:14px 40px; border-radius:30px; border:none; background:linear-gradient(90deg,#f579a8,#fc84b6); color:#fff; letter-spacing:2px; font-weight:600; cursor: pointer !important; }
 
         /* WRAPPER E PROFILE */
-        .wrapper { display:flex; align-items:center; gap:40px; position: relative; left: 150px; opacity:0; transition:1s; }
+        /* 👇 AJUSTE CLAVE 1: O wrapper agora centraliza o flex-container 👇 */
+        .wrapper { display:flex; justify-content:center; align-items:center; width: 100%; height: 100%; position: relative; opacity:0; transition:1s; z-index: 10;}
         .wrapper.show { opacity:1; }
-        .profile { position:relative; width:390px; height:400px; padding:60px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; }
-        .avatar { position:absolute; top:-45px; left:-178px; width:200px; height:200px; border-radius:50%; border:21px solid #f3d3dfa1; overflow:hidden; z-index: 20; }
+
+        /* 👇 AJUSTE CLAVE 2: Novo contêiner para alinhar player e perfil lado a lado 👇 */
+        .flex-container {
+            display: flex;
+            align-items: flex-start; /* Alinha o player e o perfil pelo topo */
+            gap: 20px; /* Espaço entre o player e o perfil */
+            position: relative;
+        }
+
+        .profile { position:relative; width:390px; height:400px; padding:60px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; z-index: 20;}
+        .avatar { position:absolute; top:-45px; left: 20px; /* Posiciona a foto no canto esquerdo interno do painel rosa */ width:200px; height:200px; border-radius:50%; border:21px solid #f3d3dfa1; overflow:hidden; z-index: 30; }
         .avatar img { width:100%; height:100%; object-fit:cover; pointer-events: none; }
 
         /* TABS */
@@ -46,8 +56,13 @@
         .tab.active { display:block; }
         @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* PLAYER ROSA - AJUSTE DE JUSTAPOSIÇÃO */
-        .player { position: absolute; top: 154px; left:-164px; width:172px; padding:16px 15px 20px; border-radius:30px 30px 10px 10px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; box-shadow:0 10px 20px rgba(0,0,0,0.3); z-index: 10; border: 1px solid rgba(255,255,255,0.1); border-bottom: none; }
+        /* PLAYER ROSA - POSIÇÃO LADO A LADO */
+        /* 👇 AJUSTE CLAVE 3: Player agora é relativo dentro do flex-container e colado na foto 👇 */
+        .player {
+            position: relative;
+            margin-top: 154px; /* Mantém o alinhamento vertical com a foto */
+            width:172px; padding:16px 15px 20px; border-radius:30px 30px 10px 10px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; box-shadow:0 10px 20px rgba(0,0,0,0.3); z-index: 10; border: 1px solid rgba(255,255,255,0.1); border-bottom: none;
+        }
         .player img { width:75px; height:75px; border-radius:50%; object-fit:cover; border:6px solid #d47096; animation: spin 6s linear infinite; animation-play-state: paused; pointer-events: none; }
         .player.playing img { animation-play-state: running; }
         @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
@@ -91,9 +106,7 @@
 </div>
 
 <div class="wrapper" id="mainWrapper">
-    <div class="profile">
-        <div class="avatar"><img src="https://i.imgur.com/YDKnxJi.jpeg"></div>
-        
+    <div class="flex-container">
         <div class="player" id="playerBox">
             <img id="cover" src="https://xatimg.com/image/qK8We4sUV6i7.png">
             <div style="font-size:10px; margin:10px 0; height: 30px; overflow: hidden;">
@@ -111,45 +124,48 @@
             <audio id="mainAudio"></audio>
         </div>
 
-        <div class="menu" id="tabMenu">
-            <span class="active" data-tab="perfil">PERFIL</span>
-            <span data-tab="amigos">AMIGOS</span>
-            <span data-tab="galeria">GALERÍA</span>
-        </div>
-
-        <div class="tabs-content">
-            <div class="tab active" id="perfil">
-                <h1 style="text-align:center; font-size: 32px; padding-top: 20px;">♥ Name ♥</h1>
-                <p style="text-align:center; opacity:0.5; font-size: 12px; padding: 10px 10px;">Ela era assim... Meio desfragmentada. Mas em todos os fragmentos dos seus espelhos podia-se contemplar o reflexo do amor.</p>
+        <div class="profile">
+            <div class="avatar"><img src="https://i.imgur.com/YDKnxJi.jpeg"></div>
+            
+            <div class="menu" id="tabMenu">
+                <span class="active" data-tab="perfil">PERFIL</span>
+                <span data-tab="amigos">AMIGOS</span>
+                <span data-tab="galeria">GALERÍA</span>
             </div>
 
-            <div class="tab" id="amigos" style="text-align:center;">
-                 <ul class="friends-list">
-                     <li>ID: 123456</li>
-                     <li>ID: 654321</li>
-                     <li>ID: 142536</li>
-                     <li>ID: 987654</li>
-                     <li>ID: 456789</li>
-                 </ul>
-            </div>
+            <div class="tabs-content">
+                <div class="tab active" id="perfil">
+                    <h1 style="text-align:center; font-size: 32px; padding-top: 20px;">♥ Name ♥</h1>
+                    <p style="text-align:center; opacity:0.5; font-size: 12px; padding: 10px 10px;">Ela era assim... Meio desfragmentada. Mas em todos os fragmentos dos seus espelhos podia-se contemplar o reflexo do amor.</p>
+                </div>
 
-            <div class="tab" id="galeria">
-                <div class="gallery-grid">
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
-                    <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div class="tab" id="amigos" style="text-align:center;">
+                     <ul class="friends-list">
+                         <li>ID: 123456</li>
+                         <li>ID: 654321</li>
+                         <li>ID: 142536</li>
+                         <li>ID: 987654</li>
+                         <li>ID: 456789</li>
+                     </ul>
+                </div>
+
+                <div class="tab" id="galeria">
+                    <div class="gallery-grid">
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                        <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div> </div>
 
 <script>
     document.onkeydown = function(e) {
