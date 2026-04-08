@@ -1,639 +1,370 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Xatspace — Portfolio</title>
-  <link rel="stylesheet" href="css/portfolio-minimal.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>WRS Xatspace — Portfolio</title>
+    <link rel="stylesheet" href="css/portfolio-minimal.css" />
 
-  <!-- 🔹 Agregar aquí Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <style>
-    /* Ajustes para logo y perfil */
-    .logo-img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .profile-img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-left: 15px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .header .profile {
-      margin-left: 20px;
-    }
+    <style>
+        /* Reset, Cursor e Proteção de Seleção */
+        * {
+            box-sizing: border-box;
+            cursor: none !important;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-  </style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        #fondo-abstracto {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header e Perfil */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+
+        .header .logo { display: flex; align-items: center; gap: 10px; }
+
+        .logo-img { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; }
+
+        .profile-img {
+            width: 60px; height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #00ffe5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav a:hover { color: #00ffe5; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 60px 0; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 20px; }
+        .accent { color: #00ffe5; text-shadow: 0 0 10px rgba(0, 255, 229, 0.5); }
+        .hero-desc { opacity: 0.8; margin-bottom: 30px; }
+
+        .hero-cta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 40px; }
+
+        .btn-primary, .btn-ghost {
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-primary { background: #00ffe5; color: #000; }
+        .btn-ghost { border: 1px solid #fff; color: #fff; }
+
+        /* Married Box */
+        .married-box {
+            width: 90px; height: 90px;
+            border-radius: 22px;
+            background: rgba(255, 0, 70, 0.12);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 0, 70, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.35s;
+            box-shadow: 0 0 16px rgba(255, 0, 70, 0.35);
+        }
+
+        .married-box i { font-size: 26px; color: #ff2d55; animation: heartBeat 1.6s infinite; }
+        .married-box span { margin-top: 4px; font-size: 10px; }
+        .married-box:hover { transform: scale(1.08); box-shadow: 0 0 28px rgba(255, 0, 70, 0.55); }
+
+        @keyframes heartBeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        /* Social Section */
+        .social-section { margin: 40px 0; }
+        .social-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .social-btn {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.1);
+        }
+        .social-btn.fb:hover { background: #1877f2; }
+        .social-btn.ig:hover { background: #e4405f; }
+        .social-btn.wa:hover { background: #25d366; }
+
+        /* VIP Player */
+        .vip-player {
+            position: relative;
+            width: 420px;
+            margin: 40px auto;
+            padding: 25px 20px;
+            border-radius: 25px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            overflow: hidden;
+            text-align: center;
+            height: 520px;
+        }
+
+        #bgCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+
+        .vip-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+
+        .compas {
+            position: relative;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 25px rgba(0,255,150,0.5);
+        }
+
+        .compas img {
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            animation: spin 12s linear infinite;
+        }
+
+        .song-title { font-size: 14px; font-weight: bold; color: #00ffe5; margin-top: 10px; }
+
+        .control-buttons { display: flex; gap: 20px; }
+        .circle-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            background: linear-gradient(135deg, #00ff96, #00c8ff);
+            border: none; color: #fff; font-size: 18px; cursor: pointer;
+            transition: 0.3s;
+        }
+        .circle-btn:hover { transform: scale(1.1); }
+
+        .volume-row { display: flex; align-items: center; gap: 10px; margin-top: 15px; }
+
+        /* Modal Married */
+        .married-modal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; z-index: 9999;
+        }
+
+        .married-card {
+            width: 350px; padding: 40px;
+            background: #151515; border-radius: 25px;
+            border: 1px solid #ff2d55; text-align: center;
+        }
+
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-  
-  <canvas id="fondo-abstracto" aria-hidden="true"></canvas>
-  <div class="container">
-    <header class="header fade-in">
-      <div class="profile">
-        <img src="https://xatimg.com/image/Pz4sE7OCoLkT.png" alt="perfil" class="profile-img">
-      </div>
-      <div class="logo">
-        <img src="https://i.ibb.co/gZ4FvJ3n/otro-logo.gif" alt="logo" class="logo-img">
-      </div>
-      <nav class="nav">
-        <a href="index.html">Inicio</a>
-        <a href="galeria gif/index.html">Galería GIF</a>
-        <a href="galerias fondos/index.html">Galerías Fondos</a>
-        <a href="precios promociones/precios.html" class="menu-btn">Listado de Precios</a>
-        <span class="nav-fixed">Xatspace</span>
-      </nav>
-    </header>
+    
+    <canvas id="fondo-abstracto"></canvas>
 
-    <section class="hero">
-      <div class="hero-left">
-        <h1 class="hero-title">Bienvienido a mi espacio de trabajo <span class="accent">"Graphic Designer"</span></h1>
-        <p class="hero-desc">Explora mi galería de diseños exclusivos: fondos, GIFs y packs creados para destacar.</p>
-<div class="hero-cta">
-  <a class="btn-primary" href="https://xat.com/fondos">fondos</a>
-  <a class="btn-ghost" href="precios promociones/precios.html">Ver precios</a>
+    <div class="container">
+        <header class="header">
+            <div class="profile">
+                <img src="https://xatimg.com/image/Pz4sE7OCoLkT.png" alt="perfil" class="profile-img">
+            </div>
+            <div class="logo">
+                <img src="https://i.ibb.co/gZ4FvJ3n/otro-logo.gif" alt="logo" class="logo-img">
+            </div>
+            <nav class="nav">
+                <a href="#">Inicio</a>
+                <a href="#">GIF</a>
+                <a href="#">Fondos</a>
+                <a href="#" class="menu-btn">Precios</a>
+            </nav>
+        </header>
 
-  <div class="married-wrapper">
-    <div class="married-box" id="openMarried">
-      <i class="fas fa-heart"></i>
-      <span>My Married</span>
-    </div>
-  </div>
-</div>
+        <section class="hero">
+            <h1 class="hero-title">Bienvenido a <span class="accent">WRS Designer</span></h1>
+            <p class="hero-desc">Explora mi galería de diseños exclusivos creados para destacar en el 2026.</p>
+            
+            <div class="hero-cta">
+                <a class="btn-primary" href="https://xat.com/fondos">Ir a Fondos</a>
+                <a class="btn-ghost" href="#">Ver Precios</a>
 
+                <div class="married-box" id="openMarried">
+                    <i class="fas fa-heart"></i>
+                    <span>Married</span>
+                </div>
+            </div>
 
+            <div class="social-section">
+                <div class="social-buttons">
+                    <a href="#" target="_blank" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" class="social-btn ig"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/5493821497105" target="_blank" class="social-btn wa"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </section>
 
-<!-- 🔹 Botones sociales -->
-<div class="social-section">
-  <p class="social-text">Aquí puedes comunicarte conmigo:</p>
-  <div class="social-buttons">
-    <a href="https://facebook.com/TU_USUARIO" target="_blank" class="social-btn fb">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://instagram.com/TU_USUARIO" target="_blank" class="social-btn ig">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://wa.me/5493821497105" target="_blank" class="social-btn wa">
-      <i class="fab fa-whatsapp"></i>
-    </a>
-  </div>
-</div>
+        <div class="vip-player fondo-efecto-ondas" id="vipPlayer">
+            <canvas id="bgCanvas"></canvas>
+            <div class="vip-content">
+                <div class="compas">
+                    <img id="coverArt" src="portadas/caratula1.jpg" alt="Cover">
+                </div>
+                <div class="song-title" id="songTitle">WRS Radio</div>
 
- 
-    <footer class="footer fade-in">© 2025 Xatspace</footer>
-  </div>
+                <div class="control-buttons">
+                    <button id="prevBtn" class="circle-btn"><i class="fas fa-backward"></i></button>
+                    <button id="playPauseBtn" class="circle-btn"><i class="fas fa-play"></i></button>
+                    <button id="nextBtn" class="circle-btn"><i class="fas fa-forward"></i></button>
+                </div>
 
+                <div class="volume-row">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="volume" min="0" max="100" value="70">
+                </div>
 
-<!-- Reproductor -->
-<div class="vip-player fondo-efecto-ondas" id="vipPlayer">
-  <canvas id="bgCanvas"></canvas>
+                <div class="info-bar" style="font-size: 12px; margin-top: 10px;">
+                    <span id="currentTime">00:00</span> | <span id="currentDate">--/--/--</span>
+                </div>
+            </div>
+            <audio id="radioAudio"></audio>
+        </div>
 
-  <div class="vip-content">
-    <!-- Compás -->
-    <div class="compas">
-      <div class="pulse"></div>
-      <img id="coverArt" src="portadas/caratula1.jpg" alt="Cover">
-    </div>
-	
-	<div class="song-title" id="songTitle">Reproduciendo...</div>
-
-    <!-- Botones -->
-    <div class="control-buttons">
-      <button id="prevBtn" class="circle-btn"><i class="fas fa-backward"></i></button>
-      <button id="playPauseBtn" class="circle-btn"><i class="fas fa-play"></i></button>
-      <button id="nextBtn" class="circle-btn"><i class="fas fa-forward"></i></button>
+        <footer style="text-align:center; padding: 40px; opacity:0.5; font-size:12px;">
+            © 2026 WRS Space - Gabriel
+        </footer>
     </div>
 
-    <!-- Ecualizador -->
-    <div class="equalizer">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
+    <div class="married-modal" id="marriedModal">
+        <div class="married-card">
+            <button id="closeMarried" style="float:right; background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">&times;</button>
+            <img src="https://xatimg.com/image/GMshmqiYLAuC.png" style="width:100px; border-radius:50%; border:2px solid #ff2d55;">
+            <h2 style="color:#ff2d55;">Day</h2>
+            <p>ID: 116447265</p>
+            <p>"Mi amor te quiero."</p>
+            <a href="https://xat.me/iDaii" target="_blank" class="xat-btn" style="color:#ff2d55; text-decoration:none; font-weight:bold;">XAT.ME</a>
+        </div>
     </div>
 
-    <!-- Volumen -->
-    <div class="volume-row">
-      <i class="fas fa-volume-up"></i>
-      <input type="range" id="volume" min="0" max="100" value="70">
-      <span id="volumeVal">70%</span>
-    </div>
-
-    <!-- Barra inferior -->
-    <div class="info-bar">
-      <span id="currentTime"></span> | 
-      <span id="currentDate"></span>
-    </div>
-  </div>
-
-  <!-- 🎵 El audio queda vacío -->
-  <audio id="radioAudio"></audio>
-</div>
-
-<!-- Plugin de efecto agua -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
-
-<!-- 💖 Married Modal -->
-<div class="married-modal" id="marriedModal">
-  <div class="married-card">
-    <button class="close-married" id="closeMarried">&times;</button>
-
-    <img src="https://xatimg.com/image/GMshmqiYLAuC.png" class="married-avatar">
-
-    <h2>day</h2>
-    <p class="married-id">ID: 116447265</p>
-
-    <p class="married-text">Mi amor te quiero.</p>
-
-    <a href="https://xat.me/iDaii" target="_blank" class="xat-btn">
-      XAT.ME
-    </a>
-  </div>
-</div>
-
-<script>
-jQuery(document).ready(function($) {
-  // 🌊 Efecto agua solo en el fondo del reproductor
-  $('.fondo-efecto-ondas').ripples({
-    resolution: 512,   // calidad del efecto
-    dropRadius: 20,    // tamaño de las ondas
-    perturbance: 0.01  // movimiento suave
-  });
-});
-</script>
-
-
-<style>
-.vip-player {
-  position: relative;
-  width: 420px;
-  margin: 40px auto;
-  padding: 25px 20px;
-  border-radius: 18px;
-  background: rgba(0,0,0,0); /* transparente */
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-  overflow: hidden;
-  text-align: center;
-  color: #fff;
-  height: 520px; /* un poco más alto para que entre el compás */
-}
-
-#bgCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.vip-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-/* Compás */
-.compas {
-  position: relative;
-  z-index: 2; /* encima del canvas */
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: rgba(0, 255, 200, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 25px rgba(0,255,150,0.7),
-              0 0 40px rgba(0,200,255,0.5),
-              0 0 60px rgba(180,0,255,0.5);
-  overflow: hidden; /* para que la portada quede redonda dentro */
-}
-
-.pulse {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: cyan;
-  box-shadow: 0 0 20px cyan, 0 0 40px cyan;
-  z-index: 1;
-}
-
-/* Imagen de la portada dentro del compás */
-.compas img {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  z-index: 2;
-  animation: spin 12s linear infinite; /* efecto de girar */
-  box-shadow: 0 0 15px rgba(0,255,255,0.6);
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); box-shadow: 0 0 20px cyan; }
-  50% { transform: scale(1.1); box-shadow: 0 0 40px cyan; }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-
-.song-title {
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #00ffe5;
-  text-align: center;
-  text-shadow: 0 0 6px rgba(0,255,255,0.6);
-}
-
-
-/* Botones */
-.control-buttons { display: flex; gap: 20px; }
-.circle-btn {
-  font-size: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.3);
-  background: linear-gradient(135deg, rgba(0,255,150,0.7), rgba(0,200,255,0.7), rgba(180,0,255,0.7));
-  background-size: 300% 300%;
-  color: #fff;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 15px rgba(0,255,150,0.5), 0 0 25px rgba(0,200,255,0.4), 0 0 35px rgba(180,0,255,0.4);
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.circle-btn:hover {
-  animation: gradientMove 4s ease infinite;
-  transform: scale(1.15) rotate(-2deg);
-  box-shadow: 0 0 25px rgba(0,255,150,0.7), 0 0 40px rgba(0,200,255,0.6), 0 0 50px rgba(180,0,255,0.6);
-}
-@keyframes gradientMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
-
-/* Ecualizador */
-.equalizer { display: flex; justify-content:center; align-items:flex-end; gap:4px; height:40px; }
-.equalizer span { display:block; width:6px; height:20px; background:#fff; opacity:0.8; animation:eqAnim 1s infinite; border-radius:3px; }
-.equalizer span:nth-child(odd) { animation-delay:0.2s; }
-.equalizer span:nth-child(even) { animation-delay:0.5s; }
-@keyframes eqAnim {0%,100%{height:10px;}50%{height:35px;}}
-
-/* Volumen */
-.volume-row { display:flex; align-items:center; gap:10px; }
-.volume-row input { width:150px; }
-#volumeVal { font-size:14px; color:#ddd; }
-
-/* Barra inferior */
-.info-bar {
-  font-size:14px; margin-top:5px;
-  padding:6px 12px; border-radius:12px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter: blur(6px); color:#fff;
-}
-
-/* ❤️ Married Button */
-.married-box {
-  width: 90px;        /* antes 110 */
-  height: 90px;       /* antes 110 */
-  border-radius: 22px;
-  background: rgba(255, 0, 70, 0.12);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 0, 70, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  box-shadow: 
-    0 0 16px rgba(255, 0, 70, 0.35),
-    inset 0 0 12px rgba(255, 45, 85, 0.25);
-}
-
-.hero-cta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.married-box i {
-  font-size: 26px;   /* antes 34 */
-  color: #ff2d55;
-  animation: heartBeat 1.6s infinite;
-}
-
-.married-box span {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #fff;
-  opacity: 0.85;
-}
-
-
-.married-box:hover {
-  transform: scale(1.08);
-  box-shadow: 
-    0 0 28px rgba(255, 0, 70, 0.55),
-    inset 0 0 18px rgba(255, 45, 85, 0.35);
-}
-
-
-@keyframes heartBeat {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-/* 💖 Modal */
-.married-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(10px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.married-card {
-  width: 380px;
-  padding: 60px;
-  border-radius: 25px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-  box-shadow: 0 0 40px rgba(255,0,70,0.5);
-  animation: fadeUp 0.6s ease;
-}
-
-@keyframes fadeUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.married-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ff2d55;
-  margin-bottom: 15px;
-}
-
-.married-card h2 {
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.married-id {
-  font-size: 13px;
-  color: #ff9bb5;
-  margin-bottom: 15px;
-}
-
-.married-text {
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.xat-btn {
-  display: inline-block;
-  padding: 10px 25px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #ff2d55, #ff5f8a);
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.xat-btn:hover {
-  box-shadow: 0 0 20px #ff2d55;
-}
-
-.close-married {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-
-</style>
-
-<script>
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
-
-let w = canvas.width;
-let h = canvas.height;
-
-function resize() {
-  w = canvas.width = canvas.offsetWidth;
-  h = canvas.height = canvas.offsetHeight;
-}
-window.addEventListener("resize", resize);
-
-// Array de notas musicales
-const symbols = ["♪","♫","♬","♩"];
-const notes = [];
-
-class Note {
-  constructor() {
-    this.reset();
-  }
-  reset() {
-    this.x = Math.random() * w;
-    this.y = Math.random() * -h;
-    this.size = 12 + Math.random() * 10; // más pequeñas
-    this.speed = 0.2 + Math.random() * 0.6; // más lento
-    this.symbol = symbols[Math.floor(Math.random()*symbols.length)];
-    this.color = `hsl(${Math.random()*360}, 100%, 75%)`;
-  }
-  update() {
-    this.y += this.speed;
-    if (this.y > h + this.size) {
-      this.reset();
-      this.y = -this.size;
-    }
-  }
-  draw() {
-    ctx.font = `${this.size}px Arial`;
-    ctx.fillStyle = this.color;
-    ctx.fillText(this.symbol, this.x, this.y);
-  }
-}
-
-// Crear menos notas
-for (let i = 0; i < 15; i++) { // antes 40 → ahora pocas
-  notes.push(new Note());
-}
-
-function animate() {
-  ctx.clearRect(0, 0, w, h);
-  notes.forEach(n => {
-    n.update();
-    n.draw();
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-
-// --- Reproductor ---
-const audio = document.getElementById('radioAudio');
-const playPauseBtn = document.getElementById('playPauseBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const volume = document.getElementById('volume');
-const volumeVal = document.getElementById('volumeVal');
-const currentTimeEl = document.getElementById('currentTime');
-const currentDateEl = document.getElementById('currentDate');
-const coverArt = document.getElementById('coverArt'); // << imagen dentro del compás
-
-// 🎵 Aquí se agregan las canciones y sus carátulas
-const playlist = [
-  { 
-    src: "Repructor/musica1.mp3", 
-    cover: "portadas/caratula1.jpg", 
-    title: "Simple Plan - Everytime" 
-  },
-  { 
-    src: "Repructor/musica2.mp3", 
-    cover: "portadas/caratula2.jpg", 
-    title: "Blink-182 - First Date" 
-  },
-  { 
-    src: "Repructor/musica3.mp3", 
-    cover: "portadas/caratula3.jpg", 
-    title: "Simple Plan - Jet Lag ft. Natasha Bedingfield" 
-  },
-  { 
-    src: "Repructor/musica4.mp3", 
-    cover: "portadas/caratula4.jpg", 
-    title: "Sum 41 - In Too Deep" 
-  },
-  { 
-    src: "Repructor/musica5.mp3", 
-    cover: "portadas/caratula5.jpg", 
-    title: "Eminem - Lose Yourself" 
-  },
-  { 
-    src: "Repructor/musica6.mp3", 
-    cover: "portadas/caratula6.jpg", 
-    title: "D12 - Fight Music" 
-  } 
-];
-
-let currentTrack = 0;
-const songTitle = document.getElementById('songTitle'); // << lo traemos arriba
-
-function loadTrack(index) {
-  audio.src = playlist[index].src;
-  coverArt.src = playlist[index].cover;
-  songTitle.textContent = playlist[index].title; // << muestra el título actual
-  audio.load();
-  audio.play();
-  playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-}
-
-
-playPauseBtn.addEventListener('click', () => {
-  if (audio.paused) { 
-    audio.play(); 
-    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>'; 
-  } else { 
-    audio.pause(); 
-    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>'; 
-  }
-});
-
-nextBtn.addEventListener('click', () => { 
-  currentTrack=(currentTrack+1)%playlist.length; 
-  loadTrack(currentTrack); 
-});
-prevBtn.addEventListener('click', () => { 
-  currentTrack=(currentTrack-1+playlist.length)%playlist.length; 
-  loadTrack(currentTrack); 
-});
-volume.addEventListener('input', () => { 
-  audio.volume = volume.value / 100; 
-  volumeVal.textContent = volume.value + '%'; 
-});
-
-function updateDateTime() {
-  const now = new Date();
-  currentTimeEl.textContent = now.toLocaleTimeString();
-  currentDateEl.textContent = now.toLocaleDateString();
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
-
-// carga la primera pista con su portada
-loadTrack(currentTrack);
-
-// deja el botón en modo "play"
-playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-
-
-const openMarried = document.getElementById("openMarried");
-const marriedModal = document.getElementById("marriedModal");
-const closeMarried = document.getElementById("closeMarried");
-
-openMarried.onclick = () => marriedModal.style.display = "flex";
-closeMarried.onclick = () => marriedModal.style.display = "none";
-
-marriedModal.onclick = e => {
-  if (e.target === marriedModal) marriedModal.style.display = "none";
-};
-</script>
-
-
-</script>
-
-  <script src="../assets/modules/fondo-abstracto.js" defer></script>
-  <script src="js/portfolio-minimal.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+
+    <script>
+        // --- Efeito Ripples ---
+        $(document).ready(function() {
+            $('.fondo-efecto-ondas').ripples({
+                resolution: 512,
+                dropRadius: 20,
+                perturbance: 0.01
+            });
+        });
+
+        // --- Sistema de Partículas (Notas Musicais) ---
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        let w, h;
+        function resize() { w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight; }
+        window.onresize = resize; resize();
+
+        const symbols = ["♪","♫","♬","♩"];
+        const notes = [];
+        class Note {
+            constructor() { this.reset(); this.y = Math.random() * h; }
+            reset() {
+                this.x = Math.random() * w;
+                this.y = -20;
+                this.size = 12 + Math.random() * 10;
+                this.speed = 0.5 + Math.random() * 1;
+                this.symbol = symbols[Math.floor(Math.random()*symbols.length)];
+                this.opacity = Math.random();
+            }
+            update() { this.y += this.speed; if(this.y > h) this.reset(); }
+            draw() {
+                ctx.globalAlpha = this.opacity;
+                ctx.font = `${this.size}px Arial`;
+                ctx.fillStyle = "#00ffe5";
+                ctx.fillText(this.symbol, this.x, this.y);
+            }
+        }
+        for(let i=0; i<15; i++) notes.push(new Note());
+        function anim() { ctx.clearRect(0,0,w,h); notes.forEach(n=>{n.update(); n.draw();}); requestAnimationFrame(anim); }
+        anim();
+
+        // --- Player ---
+        const playlist = [
+            { src: "Repructor/musica1.mp3", cover: "portadas/caratula1.jpg", title: "Simple Plan - Everytime" },
+            { src: "Repructor/musica2.mp3", cover: "portadas/caratula2.jpg", title: "Blink-182 - First Date" }
+        ];
+        let currentTrack = 0;
+        const audio = document.getElementById('radioAudio');
+        const playBtn = document.getElementById('playPauseBtn');
+
+        function loadTrack(idx) {
+            audio.src = playlist[idx].src;
+            document.getElementById('coverArt').src = playlist[idx].cover;
+            document.getElementById('songTitle').textContent = playlist[idx].title;
+        }
+
+        playBtn.onclick = () => {
+            if(audio.paused) { audio.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
+            else { audio.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
+        };
+
+        document.getElementById('nextBtn').onclick = () => { currentTrack = (currentTrack+1)%playlist.length; loadTrack(currentTrack); audio.play(); };
+        document.getElementById('prevBtn').onclick = () => { currentTrack = (currentTrack-1+playlist.length)%playlist.length; loadTrack(currentTrack); audio.play(); };
+
+        // Modal Control
+        document.getElementById('openMarried').onclick = () => document.getElementById('marriedModal').style.display = 'flex';
+        document.getElementById('closeMarried').onclick = () => document.getElementById('marriedModal').style.display = 'none';
+
+        // Data/Hora
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+            document.getElementById('currentDate').textContent = now.toLocaleDateString();
+        }, 1000);
+
+        loadTrack(0);
+
+        // Proteção de código
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'i' || e.key === 'a')) e.preventDefault();
+        });
+    </script>
 </body>
 </html>
