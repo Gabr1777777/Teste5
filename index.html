@@ -1,389 +1,451 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Perfil Estilo Instagram</title>
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Puzzle Anime</title>
+<style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: url(https://xatimg.com/image/E4gI5Ee5Mg0e.png) no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
+        background-color: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
     }
-    .ig-wrapper {
-      max-width: 1000px;
-      margin: 30px auto;
-      background: rgba(255, 255, 255, .95);
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, .3);
+    h1 {
+        font-size: 2rem;
+        margin-top: 20px;
     }
-    .profile-top {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
+    .personajes {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
     }
-    .profile-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid #cacaca;
-      object-fit: cover;
+    .personaje {
+        cursor: pointer;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        overflow: hidden;
+        width: 120px;
+        text-align: center;
     }
-    .profile-info {
-      flex: 1;
+    .personaje img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
     }
-    .profile-info h2 {
-      font-size: 24px;
-      margin: 0;
+    .personaje.selected {
+        border: 2px solid #ff00ff;
     }
-    .profile-info .stats {
-      margin: 10px 0;
-      font-size: 14px;
+    select, button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
     }
-    a.follow-link {
-      display: inline-block;
-      margin-top: 10px;
-      text-decoration: none;
+    button {
+        background-color: #ff00ff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
     }
-    .follow-btn {
-      background: #484a4c;
-      color: #fff;
-      padding: 8px 15px;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-      user-select: none;
+    button:hover {
+        background-color: #cc00cc;
     }
-    .highlights {
-      display: flex;
-      gap: 15px;
-      margin: 25px 0;
-      position: relative;
+    #juego-container {
+        margin: 20px auto;
+        display: none;
+        flex-direction: column;
+        align-items: center;
     }
-    .highlight-link {
-      display: inline-block;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #ccc;
-      width: 70px;
-      height: 70px;
-      cursor: pointer;
+    #puzzle {
+        display: grid;
+        gap: 2px;
+        margin-top: 20px;
+        background-color: #333;
     }
-    .highlight-link img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .pieza {
+        background-size: cover;
+        cursor: grab;
     }
-    .gallery-container {
-      max-height: 500px;
-      overflow-y: scroll;
-      padding-right: 10px;
+    #piezas-suelta {
+        margin-top: 20px;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+    #piezas-suelta .pieza {
+        width: 60px;
+        height: 60px;
     }
-    .gallery img {
-      width: 100%;
-      border-radius: 5px;
-      object-fit: cover;
-      cursor: pointer;
+    #info {
+        margin-top: 15px;
     }
-
-    .gallery img:active {
-      transform: scale(0.97);
-      transition: transform 0.1s ease;
+    footer {
+        font-size: 12px;
+        margin-top: 30px;
+        color: #aaa;
+        position: relative;
+        padding-bottom: 30px; /* espacio para contador */
     }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      padding-top: 60px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: rgba(0, 0, 0, .9);
+    #contador-visitas {
+        position: fixed;
+        bottom: 5px;
+        right: 10px;
+        background: #ff69b4aa;
+        padding: 4px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        color: white;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        user-select: none;
+        box-shadow: 0 0 5px #ff69b4;
+        z-index: 9999;
     }
-    .modal-content {
-      margin: auto;
-      display: block;
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 10px;
-      animation: zoomIn 0.3s ease;
-    }
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    .close {
-      position: absolute;
-      top: 30px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .3s;
-      z-index: 10000;
-    }
-    .close:hover {
-      color: #bbb;
-    }
-
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 50px;
-      color: white;
-      cursor: pointer;
-      padding: 20px;
-      z-index: 9999;
-      user-select: none;
-      transition: 0.3s;
-    }
-    .nav-arrow:hover {
-      color: #bbb;
-    }
-    .prev {
-      left: 20px;
-    }
-    .next {
-      right: 20px;
-    }
-
-    .credit {
-      text-align: center;
-      font-size: 12px;
-      color: #888;
-      margin-top: 40px;
-    }
-
-    .floating-box {
-      position: absolute;
-      top: 10px;
-      left: 170px;
-      background: rgba(255,255,255,0.85);
-      padding: 10px 15px;
-      border-radius: 12px;
-      box-shadow: 0 5px 1px rgba(0,0,0,0.2);
-      font-size: 13px;
-      max-width: px;
-      animation: fadeInPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes fadeInPulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.7;
-      }
-      50% {
-        transform: scale(1.05);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0.7;
-      }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <div class="ig-wrapper">
-    <div class="profile-top">
-      <img class="profile-img" src="https://xatimg.com/image/piUAIONvmDeb.jpg" alt="perfil">
-      <div class="profile-info">
-        <h2>тaкιѕ™<imgsrc="https://i.imgur.com/6zDwQne.png" width="16" alt="icon"></h2>
-        <div class="stats">
-          <strong>SN</strong> тaкιѕ &nbsp; <strong>ID</strong> 1543076189 &nbsp; <strong>Married</strong> `𝑪𝒐𝒄𝒂 𝑪𝒐𝒍𝒂~ ♡
-        </div>
-        <div class="desc">
-          <strong>Galería Pcback | Pstyle | Fondos | Gifs | Spaces | Logos | Más...</strong><br><br>
-        </div>
-        <a href="https://xat.com/wanderful" target="_blank" class="follow-link">
-          <div class="follow-btn">Wanderfull ♡</div>
-        </a>
-      </div>
+
+<h1>Selecciona tu personaje</h1>
+<div class="personajes" id="personajes"></div>
+
+<h2>Selecciona dificultad</h2>
+<select id="dificultad">
+    <option value="3">Fácil (3x3)</option>
+    <option value="4">Medio (4x4)</option>
+    <option value="5">Difícil (5x5)</option>
+    <option value="6">Experto (6x6)</option>
+    <option value="7">Maestro (7x7)</option>
+    <option value="8">Leyenda (8x8)</option>
+</select>
+<br />
+<button id="jugar">Jugar</button>
+
+<div id="juego-container">
+    <div id="info">
+        <p>Tiempo: <span id="tiempo">0</span> segundos | Movimientos: <span id="movimientos">0</span></p>
+        <p>Récord Tiempo: <span id="recordTiempo">-</span> | Récord Movimientos: <span id="recordMov">-</span></p>
     </div>
+    <div id="puzzle"></div>
+    <div id="piezas-suelta"></div>
+</div>
 
-    <div class="highlights">
-      <a href="https://xat.me/CocaCoLa" target="_blank" class="highlight-link">
-        <img src="https://xatimg.com/image/VnjHcArPcMiD.jpg" alt="igtv">
-      </a>
-      <div class="floating-box">
-        Porque una razón no basta para decirte cuanto TE AMO ♡. Lo que tengo claro es que en esta vida te regalaré todo lo que te mereces y que te haré ver todo lo que siento y significas.
-      </div>
-    </div>
+<footer>Juego diseñado por тaкιѕ™</footer>
 
-    <div class="gallery-container">
-      <div class="gallery">
-        <!-- Galería original intacta -->
-        <!-- ... todas las imágenes que ya tenías ... -->
-        <img src="https://xatimg.com/image/zoPltMHpM9Wx.gif" alt="img2">
-          <img src="https://xatimg.com/image/I3n7gjzif9bG.gif" alt="img3">
-          <img src="https://xatimg.com/image/nUnYp74Nh2MY.gif" alt="img4">
-          <img src="https://xatimg.com/image/AXfLo8mTfD3Q.gif" alt="img5">
-          <img src="https://xatimg.com/image/dOWwJ8JUlAof.gif" alt="img6">
-          <img src="https://xatimg.com/image/6POlOr9YkwUE.gif" alt="img7">
-          <img src="https://xatimg.com/image/9cfx0OkEfVdt.gif" alt="img8">
-          <img src="https://xatimg.com/image/FHquYUeZWMre.gif" alt="img9">
-          <img src="https://xatimg.com/image/Wic4Iz7Zi5CF.gif" alt="img1">
-          <img src="https://xatimg.com/image/CZKfnLi7QBcX.gif" alt="img2">
-          <img src="https://xatimg.com/image/Cwzafa3KTdLx.gif" alt="img3">
-          <img src="https://xatimg.com/image/RlkSWlMMOIC3.gif" alt="img4">
-          <img src="https://xatimg.com/image/vwg7btBB5Cdn.gif" alt="img5">
-          <img src="https://xatimg.com/image/XEI8YKILYU7p.gif" alt="img6">
-          <img src="https://xatimg.com/image/s9PU8dNuPFFj.gif" alt="img7">
-          <img src="https://xatimg.com/image/IFWzkDFUJTbj.gif" alt="img8">
-          <img src="https://xatimg.com/image/okPtF1QRuG1l.gif" alt="img9">
-          <img src="https://xatimg.com/image/0dDpjB6KqMlu.gif" alt="img9">
-          <img src="https://xatimg.com/image/N4C6bezXxwBs.gif" alt="img9">
-          <img src="https://xatimg.com/image/NtDsoD62xHhU.gif" alt="img9">
-          <img src="https://xatimg.com/image/SEj8eyV49aaL.png" alt="img9">
-          <img src="https://xatimg.com/image/XUEHWsL6W9Nr.png" alt="img9">
-          <img src="https://xatimg.com/image/3cy4zZnYPR70.png" alt="img9">
-          <img src="https://xatimg.com/image/P8QYMhWSsyex.png" alt="img9">
-          <img src="https://xatimg.com/image/At8QezIisLwC.png" alt="img9">
-          <img src="https://xatimg.com/image/X8JCt3OrBz5l.png" alt="img9">
-          <img src="https://xatimg.com/image/hnhe6ihJgRKo.png" alt="img9">
-          <img src="https://xatimg.com/image/uXm43Nv5G9cE.png" alt="img9">
-          <img src="https://xatimg.com/image/DIlUuZvHkDix.png" alt="img9">
-          <img src="https://xatimg.com/image/dJcVRyBfmRB1.png" alt="img9">
-          <img src="https://xatimg.com/image/yMWFFlMtXDV5.png" alt="img9">
-          <img src="https://xatimg.com/image/kV6homqu09Jg.png" alt="img9">
-          <img src="https://xatimg.com/image/RrvD8teZ2vYG.png" alt="img9">
-          <img src="https://xatimg.com/image/46tdpRZCrVj5.png" alt="img9">
-          <img src="https://xatimg.com/image/lsXJMlHi2JFl.png" alt="img9">
-          <img src="https://xatimg.com/image/BsDSkt3imAhx.png" alt="img9">
-          <img src="https://xatimg.com/image/jwo9xenoLvqj.png" alt="img9">
-          <img src="https://xatimg.com/image/er1D7CujDSnM.png" alt="img9">
-          <img src="https://xatimg.com/image/Yd4WxPoyeJPc.png" alt="img9">
-          <img src="https://xatimg.com/image/kbGyCgC0oeDl.png" alt="img9">
-          <img src="https://xatimg.com/image/OhfNtx3YOjQN.png" alt="img9">
-          <img src="https://xatimg.com/image/J0k3w9apzoap.png" alt="img9">
-          <img src="https://xatimg.com/image/rNaWQDP6JWaN.png" alt="img9">
-          <img src="https://xatimg.com/image/tVapfVzXfcaR.png" alt="img9">
-          <img src="https://xatimg.com/image/strOhwgirNs2.png" alt="img9">
-          <img src="https://xatimg.com/image/O4BpurTDnwwr.png" alt="img9">
-          <img src="https://xatimg.com/image/ZBJ8oww5BJEb.png" alt="img9">
-          <img src="https://xatimg.com/image/Xz0BJHV01vcu.png" alt="img9">
-          <img src="https://xatimg.com/image/oGYppprOwSJf.png" alt="img9">
-          <img src="https://xatimg.com/image/PaBMRZ5iVteJ.png" alt="img9">
-          <img src="https://xatimg.com/image/4ze6oGfxeFcL.png" alt="img9">
-          <img src="https://xatimg.com/image/njRLg1qh6rQK.png" alt="img9">
-          <img src="https://xatimg.com/image/MO8BkFjm46XS.png" alt="img9">
-          <img src="https://xatimg.com/image/eYT7VLMRNj5Q.png" alt="img9">
-          <img src="https://xatimg.com/image/JIMhT07ObU64.png" alt="img9">
-          <img src="https://xatimg.com/image/aRiBK8RkcsH1.png" alt="img9">
-          <img src="https://xatimg.com/image/3EF9U4PwRjZp.png" alt="img9">
-          <img src="https://xatimg.com/image/MlWPCQFYqhYx.png" alt="img9">
-          <img src="https://xatimg.com/image/qPNoML8OUcru.png" alt="img9">
-        
-      </div>
-    </div>
-  </div>
+<div id="contador-visitas">👾 Visitas: <span id="num-visitas">0</span></div>
 
-  <!-- Video YouTube invisible con sonido -->
-  <div id="yt-player" style="width: 0; height: 0; overflow: hidden;"></div>
-  <script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+<!-- Audios para éxito y error -->
+<audio id="audio-success" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
+<audio id="audio-error" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg" preload="auto"></audio>
 
-    var player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('yt-player', {
-        height: '0',
-        width: '0',
-        videoId: '3MnyyOY5ZTY',
-        playerVars: {
-          autoplay: 1,
-          loop: 1,
-          playlist: '3MnyyOY5ZTY',
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          modestbranding: 1,
-          rel: 0,
-          mute: 0
-        },
-        events: {
-          onReady: function (event) {
-            event.target.playVideo();
-          }
+<!-- Audio para sonido de felicitaciones -->
+<audio id="audio-felicidades" src="https://freesound.org/data/previews/270/270404_5121236-lq.mp3" preload="auto"></audio>
+
+<script>
+const personajesData = [
+    { nombre: "Mitsuri", imagen: "https://xatimg.com/image/BjFxhV5ENFkH.jpg" },
+    { nombre: "Momo", imagen: "https://xatimg.com/image/dSsz7VY5n0Bp.jpg" },
+    { nombre: "Nezuko", imagen: "https://xatimg.com/image/CwcbT7MgkZ4M.jpg" },
+    { nombre: "Kakashi", imagen: "https://xatimg.com/image/ULLyAwVAEOTx.jpg" },
+    { nombre: "Obanai", imagen: "https://xatimg.com/image/KuQMRAIakIMr.jpg" },
+    { nombre: "Satoru", imagen: "https://xatimg.com/image/HE10Z9YQP0H4.jpg" }
+];
+
+const personajesDiv = document.getElementById("personajes");
+let personajeSeleccionado = null;
+let tamaño = 3;
+let movimientos = 0;
+let tiempo = 0;
+let timer;
+let piezas = [];
+let piezaSeleccionada = null;
+
+let estadoTablero = [];
+
+const audioSuccess = document.getElementById("audio-success");
+const audioError = document.getElementById("audio-error");
+const audioFelicidades = document.getElementById("audio-felicidades");
+
+personajesData.forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("personaje");
+    div.innerHTML = `<img src="${p.imagen}" alt="${p.nombre}"><p>${p.nombre}</p>`;
+    div.addEventListener("click", () => {
+        document.querySelectorAll(".personaje").forEach(el => el.classList.remove("selected"));
+        div.classList.add("selected");
+        personajeSeleccionado = p.imagen;
+    });
+    personajesDiv.appendChild(div);
+});
+
+document.getElementById("jugar").addEventListener("click", () => {
+    if (!personajeSeleccionado) {
+        alert("Selecciona un personaje primero");
+        return;
+    }
+    tamaño = parseInt(document.getElementById("dificultad").value);
+    iniciarJuego();
+});
+
+function iniciarJuego() {
+    document.getElementById("juego-container").style.display = "flex";
+    movimientos = 0;
+    tiempo = 0;
+    piezaSeleccionada = null;
+    document.getElementById("movimientos").textContent = movimientos;
+    document.getElementById("tiempo").textContent = tiempo;
+    clearInterval(timer);
+    timer = setInterval(() => {
+        tiempo++;
+        document.getElementById("tiempo").textContent = tiempo;
+    }, 1000);
+    generarPiezas();
+    generarTableroVacio();
+    estadoTablero = new Array(tamaño * tamaño).fill(null).map(() => ({piezaId: null, correcta: false, piezaDiv: null}));
+}
+
+function generarPiezas() {
+    const piezasDiv = document.getElementById("piezas-suelta");
+    piezasDiv.innerHTML = "";
+    piezas = [];
+
+    for (let y = 0; y < tamaño; y++) {
+        for (let x = 0; x < tamaño; x++) {
+            piezas.push({x, y});
         }
-      });
-    }
-  </script>
-
-  <!-- Modal para galería con flechas -->
-  <div id="modal" class="modal">
-    <span class="close">&times;</span>
-    <span class="nav-arrow prev">&#10094;</span>
-    <img class="modal-content" id="modal-img" alt="modal image">
-    <span class="nav-arrow next">&#10095;</span>
-  </div>
-
-  <script>
-    const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modal-img");
-    const closeBtn = document.querySelector(".close");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-    const galleryImgs = document.querySelectorAll(".gallery img");
-
-    let currentImgIndex = 0;
-
-    function showModal(index) {
-      currentImgIndex = index;
-      modal.style.display = "block";
-      modalImg.src = galleryImgs[index].src;
     }
 
-    galleryImgs.forEach((img, index) => {
-      img.addEventListener("click", () => showModal(index));
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    shuffle(piezas);
+
+    piezas.forEach(({x, y}) => {
+        const pieza = document.createElement("div");
+        pieza.classList.add("pieza");
+        pieza.style.width = `${300 / tamaño}px`;
+        pieza.style.height = `${300 / tamaño}px`;
+        pieza.style.backgroundImage = `url('${personajeSeleccionado}')`;
+        pieza.style.backgroundSize = `${300}px ${300}px`;
+        pieza.style.backgroundPosition = `-${(300 / tamaño) * x}px -${(300 / tamaño) * y}px`;
+        pieza.dataset.id = `${x},${y}`;
+        pieza.draggable = true;
+
+        pieza.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("pieza-id", pieza.dataset.id);
+            e.dataTransfer.setDragImage(pieza, 30, 30);
+        });
+
+        pieza.addEventListener("click", () => {
+            if (piezaSeleccionada) {
+                piezaSeleccionada.classList.remove("selected");
+            }
+            piezaSeleccionada = pieza;
+            piezaSeleccionada.classList.add("selected");
+        });
+
+        piezasDiv.appendChild(pieza);
+    });
+}
+
+function generarTableroVacio() {
+    const puzzleDiv = document.getElementById("puzzle");
+    puzzleDiv.innerHTML = "";
+    puzzleDiv.style.gridTemplateColumns = `repeat(${tamaño}, ${300 / tamaño}px)`;
+    puzzleDiv.style.gridTemplateRows = `repeat(${tamaño}, ${300 / tamaño}px)`;
+
+    for (let i = 0; i < tamaño * tamaño; i++) {
+        const celda = document.createElement("div");
+        celda.style.width = `${300 / tamaño}px`;
+        celda.style.height = `${300 / tamaño}px`;
+        celda.style.border = "1px dashed #555";
+        celda.dataset.index = i;
+
+        celda.addEventListener("dragover", e => e.preventDefault());
+        celda.addEventListener("drop", e => {
+            e.preventDefault();
+            colocarPiezaDrag(e, celda);
+        });
+
+        celda.addEventListener("click", () => {
+            colocarPiezaClick(celda);
+        });
+
+        puzzleDiv.appendChild(celda);
+    }
+}
+
+function piezaYaColocada(piezaId) {
+    return estadoTablero.some(celda => celda.piezaId === piezaId);
+}
+
+function colocarPiezaDrag(e, celda) {
+    const piezaId = e.dataTransfer.getData("pieza-id");
+    if (!piezaId) return;
+
+    const index = parseInt(celda.dataset.index);
+
+    if (estadoTablero[index].correcta) return;
+
+    if (piezaYaColocada(piezaId)) return;
+
+    if (estadoTablero[index].piezaDiv && !estadoTablero[index].correcta) {
+        devolverPiezaASeleccion(estadoTablero[index].piezaDiv);
+    }
+
+    eliminarPiezaDeSeleccion(piezaId);
+
+    const [x, y] = piezaId.split(",").map(Number);
+    colocarPiezaEnCelda(celda, x, y, index, piezaId);
+}
+
+function colocarPiezaClick(celda) {
+    const index = parseInt(celda.dataset.index);
+
+    if (estadoTablero[index].correcta) return;
+    if (!piezaSeleccionada) return;
+
+    const piezaId = piezaSeleccionada.dataset.id;
+
+    if (piezaYaColocada(piezaId)) return;
+
+    if (estadoTablero[index].piezaDiv && !estadoTablero[index].correcta) {
+        devolverPiezaASeleccion(estadoTablero[index].piezaDiv);
+    }
+
+    eliminarPiezaDeSeleccion(piezaId);
+
+    const [x, y] = piezaId.split(",").map(Number);
+    colocarPiezaEnCelda(celda, x, y, index, piezaId);
+
+    piezaSeleccionada.classList.remove("selected");
+    piezaSeleccionada = null;
+}
+
+function colocarPiezaEnCelda(celda, x, y, index, piezaId) {
+    celda.style.backgroundImage = `url('${personajeSeleccionado}')`;
+    celda.style.backgroundSize = `${300}px ${300}px`;
+    celda.style.backgroundPosition = `-${(300 / tamaño) * x}px -${(300 / tamaño) * y}px`;
+
+    const filaCorrecta = Math.floor(index / tamaño);
+    const colCorrecta = index % tamaño;
+    const esCorrecta = (x === colCorrecta && y === filaCorrecta);
+
+    estadoTablero[index] = {piezaId, correcta: esCorrecta, piezaDiv: celda};
+
+    if (esCorrecta) {
+        audioSuccess.currentTime = 0;
+        audioSuccess.play();
+    } else {
+        audioError.currentTime = 0;
+        audioError.play();
+    }
+
+    movimientos++;
+    document.getElementById("movimientos").textContent = movimientos;
+
+    verificarVictoria();
+}
+
+function eliminarPiezaDeSeleccion(piezaId) {
+    const piezasDiv = document.getElementById("piezas-suelta");
+    const piezas = piezasDiv.querySelectorAll(".pieza");
+    piezas.forEach(pieza => {
+        if (pieza.dataset.id === piezaId) {
+            pieza.remove();
+        }
+    });
+}
+
+function devolverPiezaASeleccion(celdaPieza) {
+    if (!celdaPieza) return;
+
+    const piezaId = estadoTablero.find(c => c.piezaDiv === celdaPieza)?.piezaId;
+    if (!piezaId) return;
+
+    celdaPieza.style.backgroundImage = "";
+    celdaPieza.style.backgroundPosition = "";
+    celdaPieza.style.backgroundSize = "";
+    
+    const index = parseInt(celdaPieza.dataset.index);
+    estadoTablero[index] = {piezaId: null, correcta: false, piezaDiv: null};
+
+    const [x, y] = piezaId.split(",").map(Number);
+    const piezasDiv = document.getElementById("piezas-suelta");
+
+    const pieza = document.createElement("div");
+    pieza.classList.add("pieza");
+    pieza.style.width = `${300 / tamaño}px`;
+    pieza.style.height = `${300 / tamaño}px`;
+    pieza.style.backgroundImage = `url('${personajeSeleccionado}')`;
+    pieza.style.backgroundSize = `${300}px ${300}px`;
+    pieza.style.backgroundPosition = `-${(300 / tamaño) * x}px -${(300 / tamaño) * y}px`;
+    pieza.dataset.id = piezaId;
+    pieza.draggable = true;
+
+    pieza.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("pieza-id", pieza.dataset.id);
+        e.dataTransfer.setDragImage(pieza, 30, 30);
     });
 
-    closeBtn.onclick = () => {
-      modal.style.display = "none";
-    }
+    pieza.addEventListener("click", () => {
+        if (piezaSeleccionada) {
+            piezaSeleccionada.classList.remove("selected");
+        }
+        piezaSeleccionada = pieza;
+        piezaSeleccionada.classList.add("selected");
+    });
 
-    window.onclick = (e) => {
-      if (e.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    piezasDiv.appendChild(pieza);
+}
 
-    prevBtn.onclick = () => {
-      currentImgIndex = (currentImgIndex - 1 + galleryImgs.length) % galleryImgs.length;
-      modalImg.src = galleryImgs[currentImgIndex].src;
+function verificarVictoria() {
+    const completadas = estadoTablero.filter(c => c.correcta).length;
+    if (completadas === tamaño * tamaño) {
+        clearInterval(timer);
+        audioFelicidades.currentTime = 0;
+        audioFelicidades.play();
+        alert("¡Felicidades lo haz logrado!");
+        guardarRecord();
     }
+}
 
-    nextBtn.onclick = () => {
-      currentImgIndex = (currentImgIndex + 1) % galleryImgs.length;
-      modalImg.src = galleryImgs[currentImgIndex].src;
-    }
-  </script>
+function guardarRecord() {
+    const mejorTiempo = localStorage.getItem("recordTiempo") || Infinity;
+    const mejorMov = localStorage.getItem("recordMov") || Infinity;
+    if (tiempo < mejorTiempo) localStorage.setItem("recordTiempo", tiempo);
+    if (movimientos < mejorMov) localStorage.setItem("recordMov", movimientos);
+    mostrarRecord();
+}
 
-  <div class="credit">
-    By тaкιѕ™
-  </div>
+function mostrarRecord() {
+    document.getElementById("recordTiempo").textContent = localStorage.getItem("recordTiempo") || "-";
+    document.getElementById("recordMov").textContent = localStorage.getItem("recordMov") || "-";
+}
+
+// Contador visitas simulado con localStorage
+function contadorVisitas() {
+    let visitas = localStorage.getItem("contadorVisitas");
+    visitas = visitas ? parseInt(visitas) + 1 : 1;
+    localStorage.setItem("contadorVisitas", visitas);
+    document.getElementById("num-visitas").textContent = visitas;
+}
+
+contadorVisitas();
+
+mostrarRecord();
+</script>
+
 </body>
 </html>
