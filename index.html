@@ -10,7 +10,7 @@
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; cursor: none !important; }
         body { height:100vh; display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at top, #f391b78f, #cc7894 70%); overflow: hidden; }
 
-        /* CHUVA DE CORAÇÕES (RESTAURADA) */
+        /* CHUVA DE CORAÇÕES */
         .hearts-container { position:fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; z-index:-1; pointer-events:none; }
         .falling-heart { position:absolute; width:20px; height:20px; background: radial-gradient(circle, #ff9ebb, #ff4f92); transform: rotate(45deg); animation: fall linear infinite; opacity:0.7; border-radius: 2px; }
         .falling-heart::before, .falling-heart::after { content:""; position:absolute; width:20px; height:20px; background: inherit; border-radius:50%; }
@@ -32,23 +32,29 @@
         .wrapper.show { opacity:1; }
         .profile { position:relative; width:390px; height:400px; padding:180px 10px 30px; border-radius:25px; background: rgba(235, 143, 181, 0.37); backdrop-filter: blur(25px); border:1px solid rgba(139, 21, 60, 0.075); box-shadow:0 30px 60px rgba(63, 33, 33, 0.7); color:#fff; }
         .avatar { position:absolute; top:-45px; left:-178px; width:200px; height:200px; border-radius:50%; border:21px solid #f3d3dfa1; overflow:hidden; }
-        .avatar img { width:100%; height:100%; object-fit:cover; }
+        .avatar img { width:100%; height:100%; object-fit:cover; pointer-events: none; }
 
         /* TABS */
         .menu { position:absolute; top:-45px; left:50%; transform:translateX(-50%); display:flex; gap:8px; background: rgba(241, 137, 177, 0.6); padding:6px; border-radius:26px; z-index:100; }
         .menu span { font-size:12px; opacity:0.6; padding:6px 14px; border-radius:20px; transition: 0.3s; }
         .menu .active { background:linear-gradient(90deg,#f798bf,#db859f); opacity:1; }
-        .tab { display:none; animation: fade 0.5s ease forwards; }
+        .tab { display:none; animation: fade 0.5s ease forwards; height: 100%; overflow-y: auto; padding-right: 5px; }
+        .tab::-webkit-scrollbar { width: 4px; }
+        .tab::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         .tab.active { display:block; }
         @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
         /* PLAYER ROSA */
-        .player { position: relative; top:80px; left:-602px; width:170px; padding:16px 15px 20px; border-radius:80px 80px 30px 30px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
-        .player img { width:75px; height:75px; border-radius:50%; object-fit:cover; border:6px solid #d47096; animation: spin 6s linear infinite; animation-play-state: paused; }
+        .player { position: absolute; top:250px; left:-163px; width:170px; padding:16px 15px 20px; border-radius:30px; background: rgba(226, 147, 173, 0.6); backdrop-filter: blur(25px); color:#fff; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.3); z-index: 25; }
+        .player img { width:75px; height:75px; border-radius:50%; object-fit:cover; border:6px solid #d47096; animation: spin 6s linear infinite; animation-play-state: paused; pointer-events: none; }
         .player.playing img { animation-play-state: running; }
         @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-        .controls { margin-top: 10px; display: flex; justify-content: center; gap: 10px; }
+        .controls { margin-top: 10px; display: flex; justify-content: center; gap: 10px; align-items: center;}
         .controls button { background: none; border: none; color: #fff; font-size: 18px; }
+        
+        /* VOLUME SLIDER */
+        .volume-container { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .volume-container input { width: 60px; height: 3px; cursor: pointer; accent-color: #ff4f92; }
 
         /* CURSOR */
         #heartCursor { position: fixed; width: 30px; height: 30px; pointer-events: none; z-index: 999999; background: url("https://xatimg.com/image/YbX9tnbfzNya.png") no-repeat center; background-size: contain; transform: translate(-50%, -50%); }
@@ -58,18 +64,25 @@
         /* ZOOM GALERIA */
         .zoom-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; flex-direction:column; justify-content:center; align-items:center; z-index:10000; }
         .zoom-overlay.active { display:flex; }
-        .zoom-overlay img { max-width:90%; max-height:80%; border-radius:15px; }
+        .zoom-overlay img { max-width:90%; max-height:80%; border-radius:15px; pointer-events: none; }
         .close-zoom { margin-top:20px; padding:10px 30px; border-radius:20px; border:none; background:#f579a8; color:#fff; font-weight: 600; }
+
+        /* GALERIA 3 POR LINHA */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: -90px; justify-items: center; }
+        .gallery-grid img { width: 80px; border-radius: 10px; cursor: pointer; transition: 0.3s; pointer-events: auto; }
+
+        /* LISTA AMIGOS */
+        .friends-list { list-style: none; margin-top: -50px; }
+        .friends-list li { margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 
 <div class="intro" id="intro">
     <button class="enter-btn" id="enterBtn">ENTRAR</button>
 </div>
 
 <div class="hearts-container" id="heartsBg"></div>
-
 <div id="heartCursor"></div>
 
 <div class="zoom-overlay" id="zoomOverlay">
@@ -78,21 +91,26 @@
 </div>
 
 <div class="wrapper" id="mainWrapper">
-    <div class="player" id="playerBox">
-        <img id="cover" src="https://xatimg.com/image/qK8We4sUV6i7.png">
-        <div style="font-size:10px; margin:10px 0; height: 30px; overflow: hidden;">
-            <span id="musicName">Cargando...</span>
-        </div>
-        <div class="controls">
-            <button onclick="prev()">⏮</button>
-            <button onclick="togglePlay()" id="playBtn">▶</button>
-            <button onclick="next()">⏭</button>
-        </div>
-        <audio id="mainAudio"></audio>
-    </div>
-
     <div class="profile">
         <div class="avatar"><img src="https://i.imgur.com/YDKnxJi.jpeg"></div>
+        
+        <div class="player" id="playerBox">
+            <img id="cover" src="https://xatimg.com/image/qK8We4sUV6i7.png">
+            <div style="font-size:10px; margin:10px 0; height: 30px; overflow: hidden;">
+                <span id="musicName">Cargando...</span>
+            </div>
+            <div class="controls">
+                <button onclick="prev()">⏮</button>
+                <button onclick="togglePlay()" id="playBtn">▶</button>
+                <button onclick="next()">⏭</button>
+            </div>
+            <div class="volume-container">
+                <span style="font-size: 10px;">🔊</span>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume(this.value)">
+            </div>
+            <audio id="mainAudio"></audio>
+        </div>
+
         <div class="menu" id="tabMenu">
             <span class="active" data-tab="perfil">PERFIL</span>
             <span data-tab="amigos">AMIGOS</span>
@@ -101,28 +119,46 @@
 
         <div class="tab active" id="perfil">
             <h1 style="text-align:center; margin-top:-90px; font-size: 32px;">♥ Name ♥</h1>
-            <p style="text-align:center; opacity:0.5; font-size: 12px;">Ela era assim... Meio desfragmentada. Mas em todos os fragmentos dos seus espelhos
-podia-se contemplar o reflexo do amor.</p>
+            <p style="text-align:center; opacity:0.5; font-size: 12px; padding: 0 10px;">Ela era assim... Meio desfragmentada. Mas em todos os fragmentos dos seus espelhos podia-se contemplar o reflexo do amor.</p>
         </div>
 
         <div class="tab" id="amigos" style="text-align:center;">
-             <p style="margin-top:-50px;">Mis Amigos</p>
+             <ul class="friends-list">
+                 <li>ID: 123456</li>
+                 <li>ID: 654321</li>
+                 <li>ID: 142536</li>
+                 <li>ID: 987654</li>
+                 <li>ID: 456789</li>
+             </ul>
         </div>
 
         <div class="tab" id="galeria">
-            <div style="display:flex; justify-content:center; gap:10px; margin-top:-90px;">
-                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://i.imgur.com/0h6IQIZ.jpeg" style="width:80px; border-radius:10px;"></div>
-                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://i.imgur.com/0h6IQIZ.jpeg" style="width:80px; border-radius:10px;"></div>
-                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://i.imgur.com/0h6IQIZ.jpeg" style="width:80px; border-radius:10px;"></div>
-                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://i.imgur.com/0h6IQIZ.jpeg" style="width:80px; border-radius:10px;"></div>
-                <div onclick="openZoom(this)" style="cursor:pointer;"><img src="https://i.imgur.com/0h6IQIZ.jpeg" style="width:80px; border-radius:10px;"></div>
+            <div class="gallery-grid">
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
+                <div onclick="openZoom(this)"><img src="https://i.imgur.com/0h6IQIZ.jpeg"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- PLAYLIST ---
+    // BLOQUEIOS DE TECLADO (Ctrl+U, F12, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+    };
+
     const playlist = [
         { name: "Eminem - You dont know", url: "https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&st=wy1w0icm&raw=1" },
         { name: "The Sound of Silence – Rising to the Night", url: "https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&st=qty8093e&raw=1" },
@@ -152,6 +188,8 @@ podia-se contemplar o reflexo do amor.</p>
         }
     }
 
+    function changeVolume(val) { audio.volume = val; }
+
     function next() {
         currentTrack = (currentTrack + 1) % playlist.length;
         loadTrack(currentTrack);
@@ -168,18 +206,17 @@ podia-se contemplar o reflexo do amor.</p>
         playerBox.classList.add("playing");
     }
 
-    // --- INGRESSAR ---
     document.getElementById("enterBtn").addEventListener("click", () => {
         document.getElementById("intro").classList.add("hide");
         document.getElementById("mainWrapper").classList.add("show");
         loadTrack(currentTrack);
+        audio.volume = 0.5;
         audio.play();
         playBtn.innerText = "⏸";
         playerBox.classList.add("playing");
-        startHeartRain(); // Inicia os corações ao entrar
+        startHeartRain();
     });
 
-    // --- CHUVA DE CORAÇÕES ---
     function startHeartRain() {
         const container = document.getElementById("heartsBg");
         for (let i = 0; i < 20; i++) {
@@ -194,16 +231,11 @@ podia-se contemplar o reflexo do amor.</p>
         heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
         heart.style.animationDelay = (Math.random() * 5) + "s";
         container.appendChild(heart);
-        
-        heart.addEventListener('animationiteration', () => {
-            heart.style.left = Math.random() * 100 + "vw";
-        });
+        heart.addEventListener('animationiteration', () => { heart.style.left = Math.random() * 100 + "vw"; });
     }
 
-    // --- TABS ---
     const menuSpans = document.querySelectorAll('#tabMenu span');
     const tabs = document.querySelectorAll('.tab');
-
     menuSpans.forEach(span => {
         span.addEventListener('click', () => {
             menuSpans.forEach(s => s.classList.remove('active'));
@@ -214,7 +246,6 @@ podia-se contemplar o reflexo do amor.</p>
         });
     });
 
-    // --- ZOOM ---
     function openZoom(el) {
         const src = el.querySelector('img').src;
         document.getElementById("zoomImg").src = src;
@@ -222,7 +253,6 @@ podia-se contemplar o reflexo do amor.</p>
     }
     function closeZoom() { document.getElementById("zoomOverlay").classList.remove("active"); }
 
-    // --- CURSOR ---
     const cursor = document.getElementById("heartCursor");
     document.addEventListener("mousemove", (e) => {
         cursor.style.top = e.clientY + "px";
@@ -233,9 +263,6 @@ podia-se contemplar o reflexo do amor.</p>
         document.body.appendChild(p);
         setTimeout(() => p.remove(), 800);
     });
-
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
 </script>
 </body>
 </html>
